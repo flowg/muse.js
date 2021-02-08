@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "name": "nativescript",
+  "version": "0.0.1",
+  "generators": {
+    "nativescript": {
+      "factory": "./src/generators/nativescript/generator",
+      "schema": "./src/generators/nativescript/schema.json",
+      "description": "nativescript generator"
+    }
+  }
+}

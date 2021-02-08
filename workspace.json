@@ -1,0 +1,79 @@
+{
+  "version": 2,
+  "projects": {
+    "nativescript": {
+      "root": "packages/nativescript",
+      "sourceRoot": "packages/nativescript/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "packages/nativescript/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/packages/nativescript"
+          ],
+          "options": {
+            "jestConfig": "packages/nativescript/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "build": {
+          "executor": "@nrwl/node:package",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/packages/nativescript",
+            "tsConfig": "packages/nativescript/tsconfig.lib.json",
+            "packageJson": "packages/nativescript/package.json",
+            "main": "packages/nativescript/src/index.ts",
+            "assets": [
+              "packages/nativescript/*.md",
+              {
+                "input": "./packages/nativescript/src",
+                "glob": "**/*.!(ts)",
+                "output": "./src"
+              },
+              {
+                "input": "./packages/nativescript",
+                "glob": "generators.json",
+                "output": "."
+              },
+              {
+                "input": "./packages/nativescript",
+                "glob": "executors.json",
+                "output": "."
+              }
+            ]
+          }
+        }
+      }
+    },
+    "nativescript-e2e": {
+      "projectType": "application",
+      "root": "e2e/nativescript-e2e",
+      "sourceRoot": "e2e/nativescript-e2e/src",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/nx-plugin:e2e",
+          "options": {
+            "target": "nativescript:build",
+            "npmPackageName": "@muse.js/nativescript",
+            "pluginOutputPath": "dist/packages/nativescript",
+            "jestConfig": "e2e/nativescript-e2e/jest.config.js"
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/workspace"
+  }
+}
