@@ -395,9 +395,7 @@ module.exports = env => {
         verbose: !!verbose
       }),
       // Copy assets
-      new CopyWebpackPlugin({
-          patterns: copyTargets,
-      }),
+      new CopyWebpackPlugin(copyTargets),
       new nsWebpack.GenerateNativeScriptEntryPointsPlugin('bundle'),
       // For instructions on how to set up workers with webpack
       // check out https://github.com/nativescript/worker-loader

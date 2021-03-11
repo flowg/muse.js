@@ -51,7 +51,7 @@ describe( 'The nativescript plugin, with the app generator,', () => {
       );
     };
 
-  it( 'should create a Nativescript+Angular app by default', async () => {
+  fit( 'should create a Nativescript+Angular app by default', async () => {
     const appName: string = await runAppGenerator();
 
     // Computing expected files paths
@@ -75,6 +75,7 @@ describe( 'The nativescript plugin, with the app generator,', () => {
     const appName: string = await runAppGenerator();
     const result: { stdout: string; stderr: string } = await runNxCommandAsync( `build ${appName}` );
     expect( result.stdout ).toContain( 'Executor ran' );
+    // TODO
   } );
 
   describe( 'and the --directory option,', () => {
