@@ -24,9 +24,9 @@ describe( 'The nativescript plugin, with the app generator,', () => {
    */
   const runAppGenerator: ( generatorOptions?: string ) => Promise<string> = async ( generatorOptions: string = '' ) => {
     const appName: string = uniq( 'nativescript' );
-    ensureNxProject( '@nannx/nativescript', 'dist/packages/nativescript' );
+    ensureNxProject( '@muse.js/nativescript', 'dist/packages/nativescript' );
     await runNxCommandAsync(
-      `generate @nannx/nativescript:app ${appName} ${generatorOptions}`
+      `generate @muse.js/nativescript:app ${appName} ${generatorOptions}`
     );
 
     return appName;
@@ -51,6 +51,19 @@ describe( 'The nativescript plugin, with the app generator,', () => {
       );
     };
 
+  /**
+   * Helper that tests if the generated application is able to build
+   * for the given mobile platform without error
+   *
+   * @param platform : 'ios' | 'android', the mobile platform you want to test
+   * the build for
+   */
+  const testBuildForPlatform: ( platform: 'ios' | 'android' ) => Promise<void> = async ( platform: 'ios' | 'android' ) => {
+    const appName: string = await runAppGenerator();
+    const result: { stdout: string; stderr: string } = await runNxCommandAsync( `build ${appName} -c ${platform}` );
+    expect( result.stdout ).toContain( 'Project successfully built' );
+  };
+
   fit( 'should create a Nativescript+Angular app by default', async () => {
     const appName: string = await runAppGenerator();
 
@@ -71,11 +84,12 @@ describe( 'The nativescript plugin, with the app generator,', () => {
     ).not.toThrow();
   } );
 
-  it( 'should create a Nativescript app that we can build', async () => {
-    const appName: string = await runAppGenerator();
-    const result: { stdout: string; stderr: string } = await runNxCommandAsync( `build ${appName}` );
-    expect( result.stdout ).toContain( 'Executor ran' );
-    // TODO
+  it( 'should create a Nativescript app that we can build for iOS', async () => {
+    await testBuildForPlatform( 'ios' );
+  } );
+
+  it( 'should create a Nativescript app that we can build for Android', async () => {
+    await testBuildForPlatform( 'android' );
   } );
 
   describe( 'and the --directory option,', () => {

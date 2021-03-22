@@ -6,8 +6,8 @@ import {
   addProjectConfiguration,
   formatFiles, GeneratorCallback,
   getWorkspaceLayout,
-  names,
-  offsetFromRoot,
+  names, NxJsonProjectConfiguration,
+  offsetFromRoot, ProjectConfiguration,
   Tree
 } from '@nrwl/devkit';
 
@@ -56,6 +56,56 @@ function normalizeOptions(
   };
 }
 
+function generateProjectConfiguration( normalizedOptions: NormalizedSchema ): ProjectConfiguration & NxJsonProjectConfiguration {
+  return {
+    root: normalizedOptions.projectRoot,
+    projectType: 'application',
+    sourceRoot: `${normalizedOptions.projectRoot}/src`,
+    targets: {
+      build: {
+        executor: '@nrwl/workspace:run-commands',
+        options: {
+          cwd: normalizedOptions.projectRoot,
+          parallel: false
+        },
+        configurations: {
+          ios: {
+            commands: [
+              'ns build ios --env.configuration={args.configuration} --env.projectName=' + normalizedOptions.projectName
+            ]
+          },
+          android: {
+            commands: [
+              'ns build android --env.configuration={args.configuration} --env.projectName=' + normalizedOptions.projectName
+            ]
+          }
+        }
+      },
+      ios: {
+        executor: '@nrwl/workspace:run-commands',
+        options: {
+          commands: [
+            'ns debug ios --no-hmr --env.configuration={args.configuration} --env.projectName=' + normalizedOptions.projectName
+          ],
+          cwd: normalizedOptions.projectRoot,
+          parallel: false
+        }
+      },
+      android: {
+        executor: '@nrwl/workspace:run-commands',
+        options: {
+          commands: [
+            'ns debug android --no-hmr --env.configuration={args.configuration} --env.projectName=' + normalizedOptions.projectName
+          ],
+          cwd: normalizedOptions.projectRoot,
+          parallel: false
+        }
+      }
+    },
+    tags: normalizedOptions.parsedTags
+  };
+}
+
 function addFiles( host: Tree, templatesFolder: string, options: NormalizedSchema ): void {
   const templateOptions: Record<string, string | string[]> = {
     ...options,
@@ -78,17 +128,7 @@ export default async function(
   options: NativeScriptAppGeneratorSchema
 ): Promise<GeneratorCallback> {
   const normalizedOptions: NormalizedSchema = normalizeOptions( host, options );
-  addProjectConfiguration( host, normalizedOptions.projectName, {
-    root: normalizedOptions.projectRoot,
-    projectType: 'application',
-    sourceRoot: `${normalizedOptions.projectRoot}/src`,
-    targets: {
-      build: {
-        executor: '@nannx/nativescript:build'
-      }
-    },
-    tags: normalizedOptions.parsedTags
-  } );
+  addProjectConfiguration( host, normalizedOptions.projectName, generateProjectConfiguration( normalizedOptions ) );
 
   /*
    * Adding dependencies to the workspace's package.json so that
