@@ -1,0 +1,64 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "cli": "nx",
+  "id": "NativescriptApp",
+  "title": "",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      },
+      "x-prompt": "What name would you like to use?"
+    },
+    "type": {
+      "type": "string",
+      "description": "The framework or language the application will be based on.",
+      "enum": [
+        "angular",
+        "vue",
+        "typescript",
+        "javascript"
+      ],
+      "default": "angular",
+      "x-prompt": {
+        "message": "Which type of NativeScript application would you like to create ?",
+        "type": "list",
+        "items": [
+          {
+            "value": "angular",
+            "label": "Angular [ https://angular.io/docs ]"
+          },
+          {
+            "value": "vue",
+            "label": "Vue.js [ https://vuejs.org/v2/guide/ ]"
+          },
+          {
+            "value": "typescript",
+            "label": "TypeScript [ https://www.typescriptlang.org/docs ]"
+          },
+          {
+            "value": "javascript",
+            "label": "JavaScript [ https://developer.mozilla.org/en-US/docs/Web/JavaScript ]"
+          }
+        ]
+      }
+    },
+    "tags": {
+      "type": "string",
+      "description": "Add tags to the project (used for linting)",
+      "alias": "t"
+    },
+    "directory": {
+      "type": "string",
+      "description": "A directory where the project is placed",
+      "alias": "d"
+    }
+  },
+  "required": [
+    "name"
+  ]
+}
