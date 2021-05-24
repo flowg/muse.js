@@ -17,7 +17,12 @@
   },
   "projects": {
     "nativescript": { "tags": [] },
-    "nativescript-e2e": { "tags": [], "implicitDependencies": ["nativescript"] }
+    "nativescript-e2e": {
+      "tags": [],
+      "implicitDependencies": ["nativescript"]
+    },
+    "nest-sls": { "tags": [] },
+    "nest-sls-e2e": { "tags": [], "implicitDependencies": ["nest-sls"] }
   },
   "workspaceLayout": { "appsDir": "e2e", "libsDir": "packages" }
 }
