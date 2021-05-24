@@ -64,7 +64,7 @@ describe( 'The nativescript plugin, with the app generator,', () => {
     expect( result.stdout ).toContain( 'Project successfully built' );
   };
 
-  fit( 'should create a Nativescript+Angular app by default', async () => {
+  it( 'should create a Nativescript+Angular app by default', async () => {
     const appName: string = await runAppGenerator();
 
     // Computing expected files paths
