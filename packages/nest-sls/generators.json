@@ -3,10 +3,13 @@
   "name": "nest-sls",
   "version": "0.0.1",
   "generators": {
-    "nest-sls": {
-      "factory": "./src/generators/nest-sls/generator",
-      "schema": "./src/generators/nest-sls/schema.json",
-      "description": "nest-sls generator"
+    "application": {
+      "factory": "./src/generators/application/generator",
+      "schema": "./src/generators/application/schema.json",
+      "description": "Nest through Serverless application generator",
+      "aliases": [
+        "app"
+      ]
     }
   }
 }

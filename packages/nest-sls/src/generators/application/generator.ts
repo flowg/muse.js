@@ -9,6 +9,7 @@ import {
 } from '@nrwl/devkit';
 import * as path from 'path';
 import { NestSlsGeneratorSchema } from './schema';
+import { applicationGenerator } from '@nrwl/nest';
 
 interface NormalizedSchema extends NestSlsGeneratorSchema {
   projectName: string;
@@ -56,6 +57,10 @@ function addFiles(host: Tree, options: NormalizedSchema) {
 }
 
 export default async function (host: Tree, options: NestSlsGeneratorSchema) {
+  // TODO: Use the app generator from the @nrwl/nest plugin and add necessary files
+  // https://nx.dev/latest/angular/core-concepts/nx-devkit#composing-generators
+
+
   const normalizedOptions = normalizeOptions(host, options);
   addProjectConfiguration(host, normalizedOptions.projectName, {
     root: normalizedOptions.projectRoot,

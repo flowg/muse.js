@@ -9,7 +9,7 @@ describe('nest-sls e2e', () => {
   it('should create nest-sls', async (done) => {
     const plugin = uniq('nest-sls');
     ensureNxProject('@muse.js/nest-sls', 'dist/packages/nest-sls');
-    await runNxCommandAsync(`generate @muse.js/nest-sls:nest-sls ${plugin}`);
+    await runNxCommandAsync(`generate @muse.js/nest-sls:app ${plugin}`);
 
     const result = await runNxCommandAsync(`build ${plugin}`);
     expect(result.stdout).toContain('Executor ran');
