@@ -1,5 +1,3 @@
-export interface NestSlsGeneratorSchema {
-  name: string;
-  tags?: string;
-  directory?: string;
-}
+import { Schema } from '@nrwl/nest/src/schematics/application/schema';
+
+export type NestSlsApplicationSchema = Schema;

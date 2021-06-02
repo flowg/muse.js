@@ -5,13 +5,13 @@ import {
   getWorkspaceLayout,
   names,
   offsetFromRoot,
-  Tree,
+  Tree
 } from '@nrwl/devkit';
 import * as path from 'path';
-import { NestSlsGeneratorSchema } from './schema';
+import { NestSlsApplicationSchema } from './schema';
 import { applicationGenerator } from '@nrwl/nest';
 
-interface NormalizedSchema extends NestSlsGeneratorSchema {
+interface NormalizedSchema extends NestSlsApplicationSchema {
   projectName: string;
   projectRoot: string;
   projectDirectory: string;
@@ -20,14 +20,14 @@ interface NormalizedSchema extends NestSlsGeneratorSchema {
 
 function normalizeOptions(
   host: Tree,
-  options: NestSlsGeneratorSchema
+  options: NestSlsApplicationSchema
 ): NormalizedSchema {
   const name = names(options.name).fileName;
   const projectDirectory = options.directory
     ? `${names(options.directory).fileName}/${name}`
     : name;
   const projectName = projectDirectory.replace(new RegExp('/', 'g'), '-');
-  const projectRoot = `${getWorkspaceLayout(host).libsDir}/${projectDirectory}`;
+  const projectRoot = `${getWorkspaceLayout(host).appsDir}/${projectDirectory}`;
   const parsedTags = options.tags
     ? options.tags.split(',').map((s) => s.trim())
     : [];
@@ -56,23 +56,13 @@ function addFiles(host: Tree, options: NormalizedSchema) {
   );
 }
 
-export default async function (host: Tree, options: NestSlsGeneratorSchema) {
+export default async function (host: Tree, options: NestSlsApplicationSchema) {
+  const normalizedOptions = normalizeOptions(host, options);
+
   // TODO: Use the app generator from the @nrwl/nest plugin and add necessary files
   // https://nx.dev/latest/angular/core-concepts/nx-devkit#composing-generators
+  await applicationGenerator(host, normalizedOptions);
 
-
-  const normalizedOptions = normalizeOptions(host, options);
-  addProjectConfiguration(host, normalizedOptions.projectName, {
-    root: normalizedOptions.projectRoot,
-    projectType: 'library',
-    sourceRoot: `${normalizedOptions.projectRoot}/src`,
-    targets: {
-      build: {
-        executor: '@muse.js/nest-sls:build',
-      },
-    },
-    tags: normalizedOptions.parsedTags,
-  });
   addFiles(host, normalizedOptions);
   await formatFiles(host);
 }

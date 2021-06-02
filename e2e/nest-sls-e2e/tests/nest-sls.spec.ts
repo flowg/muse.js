@@ -1,3 +1,6 @@
+/**
+ * Nx imports
+ */
 import {
   checkFilesExist,
   ensureNxProject,
@@ -5,16 +8,22 @@ import {
   runNxCommandAsync,
   uniq,
 } from '@nrwl/nx-plugin/testing';
-describe('nest-sls e2e', () => {
-  it('should create nest-sls', async (done) => {
-    const plugin = uniq('nest-sls');
-    ensureNxProject('@muse.js/nest-sls', 'dist/packages/nest-sls');
-    await runNxCommandAsync(`generate @muse.js/nest-sls:app ${plugin}`);
 
-    const result = await runNxCommandAsync(`build ${plugin}`);
-    expect(result.stdout).toContain('Executor ran');
+/**
+ * Internal imports
+ */
+import { runGeneratorForPlugin } from '../../common.utils';
 
-    done();
+/**
+ * TypeScript entities and constants
+ */
+const pluginName = 'nest-sls';
+
+describe('The nest-sls plugin, with the app generator,', () => {
+  const generatorName = 'app';
+
+  fit('should create a Nest app, served through AWS Lambda, by default', async () => {
+    const appName: string = await runGeneratorForPlugin(pluginName, generatorName);
   });
 
   describe('--directory', () => {
