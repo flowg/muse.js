@@ -2,8 +2,8 @@
  * Nx imports
  */
 import {
-  joinPathFragments,
-  Tree
+    joinPathFragments,
+    Tree
 } from '@nrwl/devkit';
 
 /**
@@ -47,78 +47,78 @@ import * as glob from 'glob';
  * doesn't get confused about incorrect TypeScript files.
  */
 export function generateFiles(
-  host: Tree,
-  srcFolder: string,
-  target: string,
-  substitutions: { [ k: string ]: string | string[] },
-  ejsIgnore = '**/*.png'
+    host: Tree,
+    srcFolder: string,
+    target: string,
+    substitutions: { [k: string]: string | string[] },
+    ejsIgnore = '**/*.png'
 ): void {
-  // Searching for files that shouldn't be rendered through ejs
-  const filesToCopyAsIs: string[] = glob.sync(
-    ejsIgnore,
-    {
-      cwd: srcFolder,
-      absolute: true
-    }
-  );
-
-  allFilesInDir( srcFolder ).forEach( ( f: string ) => {
-    // Replacing placeholders in filenames
-    const relativeToTarget: string = replaceSegmentsInPath(
-      f.substring( srcFolder.length ),
-      substitutions
+    // Searching for files that shouldn't be rendered through ejs
+    const filesToCopyAsIs: string[] = glob.sync(
+        ejsIgnore,
+        {
+            cwd: srcFolder,
+            absolute: true
+        }
     );
 
-    // Dealing with the actual content of the files
-    let newContent: string | Buffer;
-    if ( !filesToCopyAsIs.includes( f ) ) {
-      // Replacing placeholders in file content through ejs
-      newContent = ejs.render( fs.readFileSync( f ).toString(), substitutions );
-    } else {
-      // Copying file content as is
-      newContent = fs.readFileSync( f );
-    }
+    allFilesInDir(srcFolder).forEach((f: string) => {
+        // Replacing placeholders in filenames
+        const relativeToTarget: string = replaceSegmentsInPath(
+            f.substring(srcFolder.length),
+            substitutions
+        );
 
-    // Writing the file with all replacements made
-    host.write( joinPathFragments( target, relativeToTarget ), newContent );
-  } );
+        // Dealing with the actual content of the files
+        let newContent: string | Buffer;
+        if (!filesToCopyAsIs.includes(f)) {
+            // Replacing placeholders in file content through ejs
+            newContent = ejs.render(fs.readFileSync(f).toString(), substitutions);
+        } else {
+            // Copying file content as is
+            newContent = fs.readFileSync(f);
+        }
+
+        // Writing the file with all replacements made
+        host.write(joinPathFragments(target, relativeToTarget), newContent);
+    });
 }
 
 function replaceSegmentsInPath(
-  filePath: string,
-  substitutions: { [ k: string ]: string | string[] }
+    filePath: string,
+    substitutions: { [k: string]: string | string[] }
 ): string {
-  Object.entries( substitutions ).forEach( ( [t, r]: [string, string | string[]] ) => {
-    if ( typeof r === 'string' ) {
-      filePath = filePath.replace( `__${t}__`, r );
-    }
-  } );
+    Object.entries(substitutions).forEach(([t, r]: [string, string | string[]]) => {
+        if (typeof r === 'string') {
+            filePath = filePath.replace(`__${t}__`, r);
+        }
+    });
 
-  return filePath;
+    return filePath;
 }
 
-function allFilesInDir( parent: string ): string[] {
-  let res: string[] = [];
-  try {
-    fs.readdirSync( parent ).forEach( ( c: string ) => {
-      const child: string = joinPathFragments( parent, c );
-      try {
-        const s: Stats = fs.statSync( child );
-        if ( !s.isDirectory() ) {
-          res.push( child );
-        } else if ( s.isDirectory() ) {
-          res = [
-            ...res,
-            ...allFilesInDir( child )
-          ];
-        }
-      } catch ( e ) {
-        console.error( e );
-      }
-    } );
-  } catch ( e ) {
-    console.error( e );
-  }
+function allFilesInDir(parent: string): string[] {
+    let res: string[] = [];
+    try {
+        fs.readdirSync(parent).forEach((c: string) => {
+            const child: string = joinPathFragments(parent, c);
+            try {
+                const s: Stats = fs.statSync(child);
+                if (!s.isDirectory()) {
+                    res.push(child);
+                } else if (s.isDirectory()) {
+                    res = [
+                        ...res,
+                        ...allFilesInDir(child)
+                    ];
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        });
+    } catch (e) {
+        console.error(e);
+    }
 
-  return res;
+    return res;
 }
