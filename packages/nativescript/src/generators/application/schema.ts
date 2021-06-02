@@ -1,3 +1,11 @@
+/**
+ * Internal imports
+ */
+import { MinimalSchema } from 'packages/schemas';
+
+/**
+ * TypeScript entities and constants
+ */
 export enum NativeScriptAppType {
     ANGULAR = 'angular',
     VUE = 'vue',
@@ -5,9 +13,6 @@ export enum NativeScriptAppType {
     JAVASCRIPT = 'javascript'
 }
 
-export interface NativeScriptAppGeneratorSchema {
-    name: string;
-    tags?: string;
-    directory?: string;
+export interface NativeScriptAppGeneratorSchema extends MinimalSchema{
     type: NativeScriptAppType;
 }

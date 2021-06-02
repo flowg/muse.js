@@ -1,3 +1,15 @@
+/**
+ * Nx imports
+ */
 import { Schema } from '@nrwl/nest/src/schematics/application/schema';
 
-export type NestSlsApplicationSchema = Schema;
+/**
+ * Internal imports
+ */
+import { MinimalSchema } from 'packages/schemas';
+
+/**
+ * TypeScript entities and constants
+ */
+export interface NestSlsAppGeneratorSchema extends Schema, MinimalSchema {
+}
