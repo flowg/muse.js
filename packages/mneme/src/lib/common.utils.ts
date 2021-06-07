@@ -32,7 +32,7 @@ export function normalizeOptions<T extends MinimalSchema>(
         ? `${names(options.directory).fileName}/${name}`
         : name;
     const projectName: string = projectDirectory.replace(new RegExp('/', 'g'), '-');
-    const projectTypeDir: string = (options.projectType === ProjectType.APPLICATION) ? 'appsDir' : 'libsDir';
+    const projectTypeDir: 'appsDir' | 'libsDir' = (options.projectType === ProjectType.APPLICATION) ? 'appsDir' : 'libsDir';
     const projectRoot = `${getWorkspaceLayout(host)[projectTypeDir]}/${projectDirectory}`;
     const parsedTags: string[] = options.tags
         ? options.tags.split(',').map((s) => s.trim())
@@ -47,7 +47,9 @@ export function normalizeOptions<T extends MinimalSchema>(
     };
 }
 
-export function addFiles<T extends MinimalSchema>(host: Tree, options: NormalizedSchema<T>, templatesFolder: string = ''): void {
+export function addFiles<T extends MinimalSchema>(host: Tree, options: NormalizedSchema<T>,
+                                                  templatesFolder = ''
+): void {
     const templateOptions: Record<string, any> = {
         ...options,
         ...names(options.name),

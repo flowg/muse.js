@@ -7,10 +7,14 @@ import {
 } from '@nrwl/devkit';
 
 /**
- * 3rd-party imports
+ * Node.js imports
  */
 import * as fs from 'fs';
 import { Stats } from 'fs';
+
+/**
+ * 3rd-party imports
+ */
 import * as ejs from 'ejs';
 import * as glob from 'glob';
 
