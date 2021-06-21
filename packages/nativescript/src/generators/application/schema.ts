@@ -1,7 +1,7 @@
 /**
- * Internal imports
+ * 3rd-party imports
  */
-import { MinimalSchema } from 'packages/schemas';
+import { MinimalSchema } from '@muse.js/mneme';
 
 /**
  * TypeScript entities and constants

@@ -26,7 +26,7 @@ export async function runGeneratorForPlugin(
     const result: { stdout: string; stderr: string } = await runNxCommandAsync(
         `generate @muse.js/${pluginName}:${generatorName} ${appName} ${generatorOptions}`
     );
-    // console.log(result.stdout);
+    // console.log(result);
 
     return appName;
 }

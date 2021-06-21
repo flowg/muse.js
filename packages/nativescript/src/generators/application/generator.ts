@@ -1,4 +1,9 @@
 /**
+ * Node.js imports
+ */
+import * as path from 'path';
+
+/**
  * Nx imports
  */
 import {
@@ -12,6 +17,15 @@ import {
 } from '@nrwl/devkit';
 
 /**
+ * 3rd-party imports
+ */
+import {
+    addFiles,
+    NormalizedSchema,
+    normalizeOptions
+} from '@muse.js/mneme';
+
+/**
  * Internal imports
  */
 import { NativeScriptAppGeneratorSchema } from './schema';
@@ -19,11 +33,6 @@ import {
     DEPENDENCIES,
     DEV_DEPENDENCIES
 } from './dependencies';
-import { NormalizedSchema } from 'packages/schemas';
-import {
-    addFiles,
-    normalizeOptions
-} from 'packages/common.utils';
 
 function generateProjectConfiguration(normalizedOptions: NormalizedSchema<NativeScriptAppGeneratorSchema>): ProjectConfiguration & NxJsonProjectConfiguration {
     return {
@@ -93,10 +102,10 @@ export default async function (
     );
 
     // Generating files from templates according to the app's type
-    addFiles(host, normalizedOptions, `templates-${options.type}`);
+    addFiles(host, normalizedOptions, path.join(__dirname, 'templates', `templates-${options.type}`));
 
     // Generating App_Resources files from templates
-    addFiles(host, normalizedOptions, 'templates-common',);
+    addFiles(host, normalizedOptions, path.join(__dirname, 'templates', 'templates-common'));
 
     // Formatting files according to Prettier
     await formatFiles(host);

@@ -60,7 +60,7 @@ export function addFiles<T extends MinimalSchema>(host: Tree, options: Normalize
 
     generateFiles(
         host,
-        path.join(__dirname, 'templates', templatesFolder),
+        templatesFolder,
         options.projectRoot,
         templateOptions
     );
