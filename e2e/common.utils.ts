@@ -30,3 +30,24 @@ export async function runGeneratorForPlugin(
 
     return appName;
 }
+
+/**
+ * Helper that completes the expected files paths with
+ * the newly generated app name
+ *
+ * @param filesPaths : string[], the paths of the files expected after
+ * generation is complete, relative to the root of that new app
+ * @param appName : string, this new app's name
+ * @return the paths of the files expected after
+ * generation is complete, relative to the root of the Nx workspace
+ */
+export function getExpectedFilesPaths(
+    filesPaths: string[],
+    appName: string
+): string[] {
+    return filesPaths.map(
+        (filePath: string) => {
+            return `apps/${appName}/${filePath}`;
+        }
+    );
+}

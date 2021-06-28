@@ -1,4 +1,4 @@
-export const ROOT_FILES: string[] = [
+export const ANGULAR_ROOT_FILES: string[] = [
     'webpack.config.js',
     'tsconfig.spec.json',
     'tsconfig.json',
@@ -10,7 +10,7 @@ export const ROOT_FILES: string[] = [
     '.eslintrc.json'
 ];
 
-export const SRC_FILES: string[] = [
+export const ANGULAR_SRC_FILES: string[] = [
     'src/main.ts',
     'src/app.css',
     'src/environments/environment.ts',
@@ -25,67 +25,4 @@ export const SRC_FILES: string[] = [
     'src/app/item/item-detail.component.html',
     'src/app/item/item.ts',
     'src/app/item/item.service.ts'
-];
-
-export const HOOKS_FILES: string[] = [
-    'hooks/before-checkForChanges/nativescript-webpack.js',
-    'hooks/before-checkForChanges/nativescript-core.js',
-    'hooks/after-prepare/nativescript-webpack.js',
-];
-
-export const APP_RESOURCES_FILES: string[] = [
-    'App_Resources/Android/app.gradle',
-    'App_Resources/Android/src/main/AndroidManifest.xml',
-    'App_Resources/Android/src/main/res/values-v29/styles.xml',
-    'App_Resources/Android/src/main/res/values-v21/styles.xml',
-    'App_Resources/Android/src/main/res/values-v21/colors.xml',
-    'App_Resources/Android/src/main/res/values/styles.xml',
-    'App_Resources/Android/src/main/res/values/colors.xml',
-    'App_Resources/Android/src/main/res/drawable-xxxhdpi/logo.png',
-    'App_Resources/Android/src/main/res/drawable-xxxhdpi/icon.png',
-    'App_Resources/Android/src/main/res/drawable-xxxhdpi/background.png',
-    'App_Resources/Android/src/main/res/drawable-xxhdpi/logo.png',
-    'App_Resources/Android/src/main/res/drawable-xxhdpi/icon.png',
-    'App_Resources/Android/src/main/res/drawable-xxhdpi/background.png',
-    'App_Resources/Android/src/main/res/drawable-xhdpi/logo.png',
-    'App_Resources/Android/src/main/res/drawable-xhdpi/icon.png',
-    'App_Resources/Android/src/main/res/drawable-xhdpi/background.png',
-    'App_Resources/Android/src/main/res/drawable-nodpi/splash_screen.xml',
-    'App_Resources/Android/src/main/res/drawable-mdpi/logo.png',
-    'App_Resources/Android/src/main/res/drawable-mdpi/icon.png',
-    'App_Resources/Android/src/main/res/drawable-mdpi/background.png',
-    'App_Resources/Android/src/main/res/drawable-ldpi/logo.png',
-    'App_Resources/Android/src/main/res/drawable-ldpi/icon.png',
-    'App_Resources/Android/src/main/res/drawable-ldpi/background.png',
-    'App_Resources/Android/src/main/res/drawable-hdpi/logo.png',
-    'App_Resources/Android/src/main/res/drawable-hdpi/icon.png',
-    'App_Resources/Android/src/main/res/drawable-hdpi/background.png',
-    'App_Resources/iOS/LaunchScreen.storyboard',
-    'App_Resources/iOS/Info.plist',
-    'App_Resources/iOS/build.xcconfig',
-    'App_Resources/iOS/Assets.xcassets/Contents.json',
-    'App_Resources/iOS/Assets.xcassets/LaunchScreen.Center.imageset/LaunchScreen-Center@3x.png',
-    'App_Resources/iOS/Assets.xcassets/LaunchScreen.Center.imageset/LaunchScreen-Center@2x.png',
-    'App_Resources/iOS/Assets.xcassets/LaunchScreen.Center.imageset/LaunchScreen-Center.png',
-    'App_Resources/iOS/Assets.xcassets/LaunchScreen.Center.imageset/Contents.json',
-    'App_Resources/iOS/Assets.xcassets/LaunchScreen.AspectFill.imageset/LaunchScreen-AspectFill@3x.png',
-    'App_Resources/iOS/Assets.xcassets/LaunchScreen.AspectFill.imageset/LaunchScreen-AspectFill@2x.png',
-    'App_Resources/iOS/Assets.xcassets/LaunchScreen.AspectFill.imageset/LaunchScreen-AspectFill.png',
-    'App_Resources/iOS/Assets.xcassets/LaunchScreen.AspectFill.imageset/Contents.json',
-    'App_Resources/iOS/Assets.xcassets/AppIcon.appiconset/icon-1024.png',
-    'App_Resources/iOS/Assets.xcassets/AppIcon.appiconset/icon-83.5@2x.png',
-    'App_Resources/iOS/Assets.xcassets/AppIcon.appiconset/icon-76@2x.png',
-    'App_Resources/iOS/Assets.xcassets/AppIcon.appiconset/icon-76.png',
-    'App_Resources/iOS/Assets.xcassets/AppIcon.appiconset/icon-60@3x.png',
-    'App_Resources/iOS/Assets.xcassets/AppIcon.appiconset/icon-60@2x.png',
-    'App_Resources/iOS/Assets.xcassets/AppIcon.appiconset/icon-40@3x.png',
-    'App_Resources/iOS/Assets.xcassets/AppIcon.appiconset/icon-40@2x.png',
-    'App_Resources/iOS/Assets.xcassets/AppIcon.appiconset/icon-40.png',
-    'App_Resources/iOS/Assets.xcassets/AppIcon.appiconset/icon-29@3x.png',
-    'App_Resources/iOS/Assets.xcassets/AppIcon.appiconset/icon-29@2x.png',
-    'App_Resources/iOS/Assets.xcassets/AppIcon.appiconset/icon-29.png',
-    'App_Resources/iOS/Assets.xcassets/AppIcon.appiconset/icon-20@3x.png',
-    'App_Resources/iOS/Assets.xcassets/AppIcon.appiconset/icon-20@2x.png',
-    'App_Resources/iOS/Assets.xcassets/AppIcon.appiconset/icon-20.png',
-    'App_Resources/iOS/Assets.xcassets/AppIcon.appiconset/Contents.json'
 ];

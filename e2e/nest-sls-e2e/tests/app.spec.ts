@@ -17,10 +17,9 @@ import { runGeneratorForPlugin } from '../../common.utils';
 /**
  * TypeScript entities and constants
  */
-const pluginName = 'nest-sls';
+const generatorName = 'app';
 
-describe('The nest-sls plugin, with the app generator,', () => {
-    const generatorName = 'app';
+describe(`The ${PLUGIN_NAME} plugin, with the ${generatorName} generator,`, () => {
 
     fit('should create a Nest app, served through AWS Lambda, by default', async () => {
         const appName: string = await runGeneratorForPlugin(pluginName, generatorName);

@@ -9,11 +9,6 @@ import {
 } from '@nrwl/devkit';
 
 /**
- * Node.js imports
- */
-import * as path from 'path';
-
-/**
  * Internal imports
  */
 import {
@@ -47,8 +42,10 @@ export function normalizeOptions<T extends MinimalSchema>(
     };
 }
 
-export function addFiles<T extends MinimalSchema>(host: Tree, options: NormalizedSchema<T>,
-                                                  templatesFolder = ''
+export function addFiles<T extends MinimalSchema>(
+    host: Tree,
+    options: NormalizedSchema<T>,
+    templatesFolder: string
 ): void {
     const templateOptions: Record<string, any> = {
         ...options,
