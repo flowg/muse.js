@@ -3,7 +3,6 @@
  */
 import {
     checkFilesExist,
-    readJson,
     runNxCommandAsync
 } from '@nrwl/nx-plugin/testing';
 
@@ -12,6 +11,8 @@ import {
  */
 import {
     getExpectedFilesPaths,
+    getTestForDirectoryOption,
+    getTestForTagsOption,
     runGeneratorForPlugin
 } from '../../common.utils';
 import {
@@ -30,6 +31,8 @@ import { PLUGIN_NAME } from './plugin-name';
 const generatorName = 'app';
 
 describe(`The ${PLUGIN_NAME} plugin, with the ${generatorName} generator,`, () => {
+    getTestForDirectoryOption(PLUGIN_NAME, generatorName);
+    getTestForTagsOption(PLUGIN_NAME, generatorName);
 
     /**
      * Helper that tests if the generated application is able to build
@@ -41,7 +44,7 @@ describe(`The ${PLUGIN_NAME} plugin, with the ${generatorName} generator,`, () =
     async function testBuildForPlatform(platform: 'ios' | 'android'): Promise<void> {
         const appName: string = await runGeneratorForPlugin(PLUGIN_NAME, generatorName);
         const result: { stdout: string; stderr: string } = await runNxCommandAsync(`build ${appName} -c ${platform}`);
-        expect(result.stdout).toContain('Project successfully built');
+        expect(result.stdout).toMatch('Project successfully built');
     }
 
     it('should create a Nativescript+Angular app by default', async () => {
@@ -70,24 +73,5 @@ describe(`The ${PLUGIN_NAME} plugin, with the ${generatorName} generator,`, () =
 
     it('should create a Nativescript app that we can build for Android', async () => {
         await testBuildForPlatform('android');
-    });
-
-    describe('and the --directory option,', () => {
-        it('should create src in the specified directory', async () => {
-            const directory: string = 'subdir';
-            const appName: string = await runGeneratorForPlugin(PLUGIN_NAME, generatorName, `--directory ${directory}`);
-            expect(() =>
-                       checkFilesExist(`apps/${directory}/${appName}/src/main.ts`)
-            ).not.toThrow();
-        });
-    });
-
-    describe('and the --tags option', () => {
-        it('should add tags to nx.json', async () => {
-            const tags: string[] = ['e2etag', 'e2ePackage'];
-            const appName: string = await runGeneratorForPlugin(PLUGIN_NAME, generatorName, `--tags ${tags.join(',')}`);
-            const nxJson: any = readJson('nx.json');
-            expect(nxJson.projects[appName].tags).toEqual(['e2etag', 'e2ePackage']);
-        });
     });
 });

@@ -11,6 +11,6 @@ module.exports = {
     },
     moduleFileExtensions: ['ts', 'js', 'html'],
     coverageDirectory: '../../coverage/e2e/nativescript-e2e',
-    testTimeout: 300000,
+    testTimeout: 10 * 60 * 1000,
     useStderr: true
 };

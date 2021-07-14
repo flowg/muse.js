@@ -89,6 +89,8 @@ export default async function (
     options: NativeScriptAppGeneratorSchema
 ): Promise<GeneratorCallback> {
     const normalizedOptions: NormalizedSchema<NativeScriptAppGeneratorSchema> = normalizeOptions(host, options);
+
+    // Adding stuff like targets and executors...
     addProjectConfiguration(host, normalizedOptions.projectName, generateProjectConfiguration(normalizedOptions));
 
     /*

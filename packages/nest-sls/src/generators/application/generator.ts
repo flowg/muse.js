@@ -10,7 +10,12 @@ import {
     addDependenciesToPackageJson,
     formatFiles,
     GeneratorCallback,
-    Tree
+    joinPathFragments,
+    NxJsonProjectConfiguration,
+    ProjectConfiguration,
+    Tree,
+    updateJson,
+    updateProjectConfiguration
 } from '@nrwl/devkit';
 import { applicationGenerator } from '@nrwl/nest';
 
@@ -32,15 +37,51 @@ import {
     DEV_DEPENDENCIES
 } from './dependencies';
 
+function generateProjectConfiguration(normalizedOptions: NormalizedSchema<NestSlsAppGeneratorSchema>): ProjectConfiguration & NxJsonProjectConfiguration {
+    return {
+        root: normalizedOptions.projectRoot,
+        projectType: 'application',
+        sourceRoot: `${normalizedOptions.projectRoot}/src`,
+        targets: {
+            deploy: {
+                executor: '@nrwl/workspace:run-commands',
+                options: {
+                    commands: [
+                        'cp -RL ../../node_modules .',
+                        'sls deploy',
+                        'rm -R node_modules'
+                    ],
+                    cwd: normalizedOptions.projectRoot,
+                    parallel: false
+                }
+            },
+            remove: {
+                executor: '@nrwl/workspace:run-commands',
+                options: {
+                    commands: [
+                        'sls remove'
+                    ],
+                    cwd: normalizedOptions.projectRoot,
+                    parallel: false
+                }
+            }
+        },
+        tags: normalizedOptions.parsedTags
+    };
+}
+
 export default async function (host: Tree, options: NestSlsAppGeneratorSchema): Promise<GeneratorCallback> {
     const normalizedOptions: NormalizedSchema<NestSlsAppGeneratorSchema> = normalizeOptions(host, options);
 
     // Generating a basic Nest app
     await applicationGenerator(host, normalizedOptions);
 
+    // Adding stuff like targets and executors...
+    updateProjectConfiguration(host, normalizedOptions.projectName, generateProjectConfiguration(normalizedOptions));
+
     /*
      * Adding dependencies to the workspace's package.json so that
-     * the newly created Nest.js + Serverless application can build properly
+     * the newly created NestJS + Serverless application can build properly
      */
     const installTask: GeneratorCallback = addDependenciesToPackageJson(
         host,
@@ -48,13 +89,22 @@ export default async function (host: Tree, options: NestSlsAppGeneratorSchema): 
         DEV_DEPENDENCIES
     );
 
-    // TODO: See which key in tsconfig.base.json is necessary for the app to work + make sure it is generated as such
     /*
-     * TODO: Add an executor that will copy node_modules for the workspace into the API app folder
-     *  ( beware of @muse.js/nest-sls symbolic link )
-     *  + execute sls deploy inside that folder
-     *  + remove node_modules inside that folder
+     * Improving default TypeScript configuration to prevent
+     * any warning during the compilation of lambda.ts
      */
+    updateJson(
+        host,
+        joinPathFragments(normalizedOptions.projectRoot, 'tsconfig.json'),
+        (json) => {
+            return {
+                ...json,
+                compilerOptions: {
+                    esModuleInterop: true
+                }
+            };
+        }
+    );
 
     // Generating files from templates
     addFiles(host, normalizedOptions, path.join(__dirname, 'templates'));

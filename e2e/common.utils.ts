@@ -2,7 +2,9 @@
  * Nx imports
  */
 import {
+    checkFilesExist,
     ensureNxProject,
+    readJson,
     runNxCommandAsync,
     uniq
 } from '@nrwl/nx-plugin/testing';
@@ -50,4 +52,43 @@ export function getExpectedFilesPaths(
             return `apps/${appName}/${filePath}`;
         }
     );
+}
+
+/**
+ * Helper that returns a test common to several plugins created within @muse.js.
+ * This one tests the directory option for a generator within a plugin
+ *
+ * @param pluginName : string, the name of the plugin that we're testing
+ * @param generatorName : string, the name of the generator that we're testing
+ * within our plugin
+ */
+export function getTestForDirectoryOption(pluginName: string, generatorName: string): void {
+    return describe('and the --directory option,', () => {
+        it('should create src in the specified directory', async () => {
+            const directory: string = 'subdir';
+            const appName: string = await runGeneratorForPlugin(pluginName, generatorName, `--directory ${directory}`);
+            expect(() =>
+                       checkFilesExist(`apps/${directory}/${appName}/src/main.ts`)
+            ).not.toThrow();
+        });
+    });
+}
+
+/**
+ * Helper that returns a test common to several plugins created within @muse.js.
+ * This one tests the tags option for a generator within a plugin
+ *
+ * @param pluginName : string, the name of the plugin that we're testing
+ * @param generatorName : string, the name of the generator that we're testing
+ * within our plugin
+ */
+export function getTestForTagsOption(pluginName: string, generatorName: string): void {
+    return describe('and the --tags option', () => {
+        it('should add tags to nx.json', async () => {
+            const tags: string[] = ['e2etag', 'e2ePackage'];
+            const appName: string = await runGeneratorForPlugin(pluginName, generatorName, `--tags ${tags.join(',')}`);
+            const nxJson: any = readJson('nx.json');
+            expect(nxJson.projects[appName].tags).toEqual(['e2etag', 'e2ePackage']);
+        });
+    });
 }

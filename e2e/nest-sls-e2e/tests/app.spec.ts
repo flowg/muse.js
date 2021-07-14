@@ -3,10 +3,7 @@
  */
 import {
     checkFilesExist,
-    ensureNxProject,
-    readJson,
-    runNxCommandAsync,
-    uniq,
+    runNxCommandAsync
 } from '@nrwl/nx-plugin/testing';
 
 /**
@@ -14,6 +11,8 @@ import {
  */
 import {
     getExpectedFilesPaths,
+    getTestForDirectoryOption,
+    getTestForTagsOption,
     runGeneratorForPlugin
 } from '../../common.utils';
 import {
@@ -28,6 +27,8 @@ import { PLUGIN_NAME } from './plugin-name';
 const generatorName = 'app';
 
 describe(`The ${PLUGIN_NAME} plugin, with the ${generatorName} generator,`, () => {
+    getTestForDirectoryOption(PLUGIN_NAME, generatorName);
+    getTestForTagsOption(PLUGIN_NAME, generatorName);
 
     it('should create a Nest app, served through AWS Lambda, by default', async () => {
         const appName: string = await runGeneratorForPlugin(PLUGIN_NAME, generatorName);
@@ -45,30 +46,17 @@ describe(`The ${PLUGIN_NAME} plugin, with the ${generatorName} generator,`, () =
         ).not.toThrow();
     });
 
-    describe('--directory', () => {
-        it('should create src in the specified directory', async (done) => {
-            const plugin = uniq('nest-sls');
-            ensureNxProject('@muse.js/nest-sls', 'dist/packages/nest-sls');
-            await runNxCommandAsync(
-                `generate @muse.js/nest-sls:nest-sls ${plugin} --directory subdir`
-            );
-            expect(() =>
-                       checkFilesExist(`libs/subdir/${plugin}/src/index.ts`)
-            ).not.toThrow();
-            done();
-        });
-    });
+    it('should create a Nest app, that we can deploy to AWS Lambda', async () => {
+        const appName: string = await runGeneratorForPlugin(PLUGIN_NAME, generatorName);
+        const result: { stdout: string; stderr: string } = await runNxCommandAsync(`deploy ${appName}`);
 
-    describe('--tags', () => {
-        it('should add tags to nx.json', async (done) => {
-            const plugin = uniq('nest-sls');
-            ensureNxProject('@muse.js/nest-sls', 'dist/packages/nest-sls');
-            await runNxCommandAsync(
-                `generate @muse.js/nest-sls:nest-sls ${plugin} --tags e2etag,e2ePackage`
-            );
-            const nxJson = readJson('nx.json');
-            expect(nxJson.projects[plugin].tags).toEqual(['e2etag', 'e2ePackage']);
-            done();
-        });
+        /*
+         * Making sure we don't create "ghost apps" on our AWS account
+         * every time we run e2e tests
+         */
+        await runNxCommandAsync(`remove ${appName}`);
+
+        expect(result.stdout).toMatch(`Uploading service ${appName}.zip file to S3`);
+        expect(result.stdout).toMatch('Stack update finished...');
     });
 });
