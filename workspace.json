@@ -3,22 +3,18 @@
   "projects": {
     "nativescript": {
       "root": "packages/nativescript",
-      "sourceRoot": "packages/nativescript/src",
+      "sourceRoot": "packages/nativescript",
       "projectType": "library",
       "targets": {
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": [
-              "packages/nativescript/**/*.ts"
-            ]
+            "lintFilePatterns": ["packages/nativescript/**/*.ts"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": [
-            "coverage/packages/nativescript"
-          ],
+          "outputs": ["coverage/packages/nativescript"],
           "options": {
             "jestConfig": "packages/nativescript/jest.config.js",
             "passWithNoTests": true
@@ -26,9 +22,7 @@
         },
         "build": {
           "executor": "@nrwl/node:package",
-          "outputs": [
-            "{options.outputPath}"
-          ],
+          "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/packages/nativescript",
             "tsConfig": "packages/nativescript/tsconfig.lib.json",
@@ -52,6 +46,22 @@
                 "output": "."
               }
             ]
+          },
+          "configurations": {
+            "e2e": {
+              "updateBuildableProjectDepsInPackageJson": false
+            }
+          }
+        },
+        "build-e2e": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "nx run nativescript:build:e2e --with-deps",
+              "mkdir -p dist/node_modules/@muse.js",
+              "cp -R dist/packages/ dist/node_modules/@muse.js"
+            ],
+            "parallel": false
           }
         }
       }
@@ -64,10 +74,107 @@
         "e2e": {
           "executor": "@nrwl/nx-plugin:e2e",
           "options": {
-            "target": "nativescript:build",
+            "target": "nativescript:build-e2e",
             "npmPackageName": "@muse.js/nativescript",
             "pluginOutputPath": "dist/packages/nativescript",
             "jestConfig": "e2e/nativescript-e2e/jest.config.js"
+          }
+        }
+      }
+    },
+    "nest-sls": {
+      "root": "packages/nest-sls",
+      "sourceRoot": "packages/nest-sls/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["packages/nest-sls/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/packages/nest-sls"],
+          "options": {
+            "jestConfig": "packages/nest-sls/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "build": {
+          "executor": "@nrwl/node:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/packages/nest-sls",
+            "tsConfig": "packages/nest-sls/tsconfig.lib.json",
+            "packageJson": "packages/nest-sls/package.json",
+            "main": "packages/nest-sls/src/index.ts",
+            "assets": [
+              "packages/nest-sls/*.md",
+              {
+                "input": "./packages/nest-sls/src",
+                "glob": "**/*.!(ts)",
+                "output": "./src"
+              },
+              {
+                "input": "./packages/nest-sls",
+                "glob": "generators.json",
+                "output": "."
+              },
+              {
+                "input": "./packages/nest-sls",
+                "glob": "executors.json",
+                "output": "."
+              }
+            ]
+          }
+        }
+      }
+    },
+    "nest-sls-e2e": {
+      "projectType": "application",
+      "root": "e2e/nest-sls-e2e",
+      "sourceRoot": "e2e/nest-sls-e2e/src",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/nx-plugin:e2e",
+          "options": {
+            "target": "nest-sls:build",
+            "npmPackageName": "@muse.js/nest-sls",
+            "pluginOutputPath": "dist/packages/nest-sls",
+            "jestConfig": "e2e/nest-sls-e2e/jest.config.js"
+          }
+        }
+      }
+    },
+    "mneme": {
+      "root": "packages/mneme",
+      "sourceRoot": "packages/mneme",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/packages/mneme",
+            "tsConfig": "packages/mneme/tsconfig.lib.json",
+            "packageJson": "packages/mneme/package.json",
+            "main": "packages/mneme/src/index.ts",
+            "assets": ["packages/mneme/*.md"]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["packages/mneme/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/packages/mneme"],
+          "options": {
+            "jestConfig": "packages/mneme/jest.config.js",
+            "passWithNoTests": true
           }
         }
       }
