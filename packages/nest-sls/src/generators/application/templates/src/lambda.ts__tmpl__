@@ -1,0 +1,70 @@
+/**
+ * Node.js imports
+ */
+import { RequestListener } from 'http';
+
+/**
+ * 3rd-party imports
+ */
+import { NestApplication, NestFactory } from '@nestjs/core';
+import { ExpressAdapter } from '@nestjs/platform-express';
+import express, { Express } from 'express';
+import { Callback, Context, Handler } from 'aws-lambda';
+import serverlessExpress from '@vendia/serverless-express';
+import Logger from '@vendia/serverless-express/src/logger';
+
+/**
+ * Internal imports
+ */
+import { AppModule } from './app/app.module';
+
+/**
+ * TypeScript entities and constants
+ */
+interface ProxyParams {
+  app: RequestListener;
+  binaryMimeTypes?: string[];
+  binarySettings?: BinarySettings;
+}
+
+interface BinarySettings {
+  isBinary?: Function | boolean;
+  contentTypes?: string[];
+}
+
+type EnhancedHandler = {
+  handler: Handler;
+  log: Logger;
+  proxy: (proxyParams: ProxyParams) => Promise<Object>;
+  (event: any, context: Context, callback: Callback): void | Promise<any>;
+};
+
+let cachedServer: EnhancedHandler;
+
+async function bootstrap(): Promise<EnhancedHandler> {
+  if (!cachedServer) {
+    const expressApp: Express = express();
+    const nestApp: NestApplication = await NestFactory.create(
+      AppModule,
+      new ExpressAdapter(expressApp)
+    );
+
+    nestApp.enableCors();
+
+    await nestApp.init();
+
+    cachedServer = serverlessExpress({ app: expressApp }) as EnhancedHandler;
+  }
+
+  return cachedServer;
+}
+
+export const handler: Handler = async (
+  event: any,
+  context: Context,
+  callback: any
+) => {
+  const server: EnhancedHandler = await bootstrap();
+
+  return server(event, context, callback);
+};

@@ -1,9 +1,14 @@
 {
   "npmScope": "muse.js",
-  "affected": { "defaultBase": "master" },
+  "affected": {
+    "defaultBase": "master"
+  },
   "implicitDependencies": {
     "workspace.json": "*",
-    "package.json": { "dependencies": "*", "devDependencies": "*" },
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
     "tsconfig.base.json": "*",
     "tslint.json": "*",
     ".eslintrc.json": "*",
@@ -12,12 +17,32 @@
   "tasksRunnerOptions": {
     "default": {
       "runner": "@nrwl/workspace/tasks-runners/default",
-      "options": { "cacheableOperations": ["build", "lint", "test", "e2e"] }
+      "options": {
+        "cacheableOperations": ["build", "lint", "test", "e2e"]
+      }
     }
   },
   "projects": {
-    "nativescript": { "tags": [] },
-    "nativescript-e2e": { "tags": [], "implicitDependencies": ["nativescript"] }
+    "nativescript": {
+      "tags": []
+    },
+    "nativescript-e2e": {
+      "tags": [],
+      "implicitDependencies": ["nativescript"]
+    },
+    "nest-sls": {
+      "tags": []
+    },
+    "nest-sls-e2e": {
+      "tags": [],
+      "implicitDependencies": ["nest-sls"]
+    },
+    "mneme": {
+      "tags": []
+    }
   },
-  "workspaceLayout": { "appsDir": "e2e", "libsDir": "packages" }
+  "workspaceLayout": {
+    "appsDir": "e2e",
+    "libsDir": "packages"
+  }
 }
