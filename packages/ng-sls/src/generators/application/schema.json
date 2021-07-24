@@ -1,10 +1,15 @@
 {
   "$schema": "http://json-schema.org/schema",
   "cli": "nx",
-  "id": "NgSls",
+  "id": "NgSlsApp",
   "title": "",
   "type": "object",
   "properties": {
+    "projectType": {
+      "type": "string",
+      "description": "The type of project this generator will build, either 'application' or 'library'",
+      "default": "application"
+    },
     "name": {
       "type": "string",
       "description": "",
