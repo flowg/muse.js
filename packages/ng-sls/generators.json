@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "name": "ng-sls",
+  "version": "0.0.1",
+  "generators": {
+    "ng-sls": {
+      "factory": "./src/generators/ng-sls/generator",
+      "schema": "./src/generators/ng-sls/schema.json",
+      "description": "ng-sls generator"
+    }
+  }
+}
