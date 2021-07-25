@@ -1,6 +1,38 @@
 {
   "version": 2,
   "projects": {
+    "mneme": {
+      "root": "packages/mneme",
+      "sourceRoot": "packages/mneme",
+      "projectType": "library",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/packages/mneme",
+            "tsConfig": "packages/mneme/tsconfig.lib.json",
+            "packageJson": "packages/mneme/package.json",
+            "main": "packages/mneme/src/index.ts",
+            "assets": ["packages/mneme/*.md"]
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["packages/mneme/**/*.ts"]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": ["coverage/packages/mneme"],
+          "options": {
+            "jestConfig": "packages/mneme/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
     "nativescript": {
       "root": "packages/nativescript",
       "sourceRoot": "packages/nativescript",
@@ -127,6 +159,22 @@
                 "output": "."
               }
             ]
+          },
+          "configurations": {
+            "e2e": {
+              "updateBuildableProjectDepsInPackageJson": false
+            }
+          }
+        },
+        "build-e2e": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "nx run nest-sls:build:e2e --with-deps",
+              "mkdir -p dist/node_modules/@muse.js",
+              "cp -R dist/packages/ dist/node_modules/@muse.js"
+            ],
+            "parallel": false
           }
         }
       }
@@ -139,7 +187,7 @@
         "e2e": {
           "executor": "@nrwl/nx-plugin:e2e",
           "options": {
-            "target": "nest-sls:build",
+            "target": "nest-sls:build-e2e",
             "npmPackageName": "@muse.js/nest-sls",
             "pluginOutputPath": "dist/packages/nest-sls",
             "jestConfig": "e2e/nest-sls-e2e/jest.config.js"
@@ -147,34 +195,88 @@
         }
       }
     },
-    "mneme": {
-      "root": "packages/mneme",
-      "sourceRoot": "packages/mneme",
+    "ng-sls": {
+      "root": "packages/ng-sls",
+      "sourceRoot": "packages/ng-sls/src",
       "projectType": "library",
       "targets": {
-        "build": {
-          "executor": "@nrwl/node:package",
-          "outputs": ["{options.outputPath}"],
-          "options": {
-            "outputPath": "dist/packages/mneme",
-            "tsConfig": "packages/mneme/tsconfig.lib.json",
-            "packageJson": "packages/mneme/package.json",
-            "main": "packages/mneme/src/index.ts",
-            "assets": ["packages/mneme/*.md"]
-          }
-        },
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["packages/mneme/**/*.ts"]
+            "lintFilePatterns": ["packages/ng-sls/**/*.ts"]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/packages/mneme"],
+          "outputs": ["coverage/packages/ng-sls"],
           "options": {
-            "jestConfig": "packages/mneme/jest.config.js",
+            "jestConfig": "packages/ng-sls/jest.config.js",
             "passWithNoTests": true
+          }
+        },
+        "build": {
+          "executor": "@nrwl/node:package",
+          "outputs": ["{options.outputPath}"],
+          "options": {
+            "outputPath": "dist/packages/ng-sls",
+            "tsConfig": "packages/ng-sls/tsconfig.lib.json",
+            "packageJson": "packages/ng-sls/package.json",
+            "main": "packages/ng-sls/src/index.ts",
+            "assets": [
+              "packages/ng-sls/*.md",
+              {
+                "input": "./packages/ng-sls/src",
+                "glob": "**/!(*.ts)",
+                "output": "./src"
+              },
+              {
+                "input": "./packages/ng-sls/src",
+                "glob": "**/*.d.ts",
+                "output": "./src"
+              },
+              {
+                "input": "./packages/ng-sls",
+                "glob": "generators.json",
+                "output": "."
+              },
+              {
+                "input": "./packages/ng-sls",
+                "glob": "executors.json",
+                "output": "."
+              }
+            ]
+          },
+          "configurations": {
+            "e2e": {
+              "updateBuildableProjectDepsInPackageJson": false
+            }
+          }
+        },
+        "build-e2e": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "nx run ng-sls:build:e2e --with-deps",
+              "mkdir -p dist/node_modules/@muse.js",
+              "cp -R dist/packages/ dist/node_modules/@muse.js"
+            ],
+            "parallel": false
+          }
+        }
+      }
+    },
+    "ng-sls-e2e": {
+      "root": "e2e/ng-sls-e2e",
+      "projectType": "application",
+      "sourceRoot": "e2e/ng-sls-e2e/src",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/nx-plugin:e2e",
+          "options": {
+            "target": "ng-sls:build-e2e",
+            "npmPackageName": "@muse.js/ng-sls",
+            "pluginOutputPath": "dist/packages/ng-sls",
+            "jestConfig": "e2e/ng-sls-e2e/jest.config.js"
           }
         }
       }

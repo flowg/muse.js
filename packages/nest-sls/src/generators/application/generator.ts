@@ -11,11 +11,9 @@ import {
     formatFiles,
     GeneratorCallback,
     joinPathFragments,
-    NxJsonProjectConfiguration,
-    ProjectConfiguration,
+    TargetConfiguration,
     Tree,
-    updateJson,
-    updateProjectConfiguration
+    updateJson
 } from '@nrwl/devkit';
 import { applicationGenerator } from '@nrwl/nest';
 
@@ -24,6 +22,7 @@ import { applicationGenerator } from '@nrwl/nest';
  */
 import {
     addFiles,
+    addTargets2ProjectConfiguration,
     NormalizedSchema,
     normalizeOptions
 } from '@muse.js/mneme';
@@ -37,36 +36,30 @@ import {
     DEV_DEPENDENCIES
 } from './dependencies';
 
-function generateProjectConfiguration(normalizedOptions: NormalizedSchema<NestSlsAppGeneratorSchema>): ProjectConfiguration & NxJsonProjectConfiguration {
+function generateNewTargets(normalizedOptions: NormalizedSchema<NestSlsAppGeneratorSchema>): Record<string, TargetConfiguration> {
     return {
-        root: normalizedOptions.projectRoot,
-        projectType: 'application',
-        sourceRoot: `${normalizedOptions.projectRoot}/src`,
-        targets: {
-            deploy: {
-                executor: '@nrwl/workspace:run-commands',
-                options: {
-                    commands: [
-                        'cp -RL ../../node_modules .',
-                        'sls deploy',
-                        'rm -R node_modules'
-                    ],
-                    cwd: normalizedOptions.projectRoot,
-                    parallel: false
-                }
-            },
-            remove: {
-                executor: '@nrwl/workspace:run-commands',
-                options: {
-                    commands: [
-                        'sls remove'
-                    ],
-                    cwd: normalizedOptions.projectRoot,
-                    parallel: false
-                }
+        deploy: {
+            executor: '@nrwl/workspace:run-commands',
+            options: {
+                commands: [
+                    'cp -RL ../../node_modules .',
+                    'sls deploy',
+                    'rm -R node_modules'
+                ],
+                cwd: normalizedOptions.projectRoot,
+                parallel: false
             }
         },
-        tags: normalizedOptions.parsedTags
+        remove: {
+            executor: '@nrwl/workspace:run-commands',
+            options: {
+                commands: [
+                    'sls remove'
+                ],
+                cwd: normalizedOptions.projectRoot,
+                parallel: false
+            }
+        }
     };
 }
 
@@ -76,8 +69,10 @@ export default async function (host: Tree, options: NestSlsAppGeneratorSchema): 
     // Generating a basic Nest app
     await applicationGenerator(host, normalizedOptions);
 
-    // Adding stuff like targets and executors...
-    updateProjectConfiguration(host, normalizedOptions.projectName, generateProjectConfiguration(normalizedOptions));
+    // Adding new targets to the generated Angular project
+    addTargets2ProjectConfiguration<NestSlsAppGeneratorSchema>(
+        host, normalizedOptions, generateNewTargets(normalizedOptions)
+    );
 
     /*
      * Adding dependencies to the workspace's package.json so that

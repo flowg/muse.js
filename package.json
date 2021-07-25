@@ -28,6 +28,7 @@
   "private": false,
   "dependencies": {},
   "devDependencies": {
+    "@nrwl/angular": "^12.6.2",
     "@nrwl/cli": "12.5.8",
     "@nrwl/devkit": "12.5.8",
     "@nrwl/eslint-plugin-nx": "12.5.8",
