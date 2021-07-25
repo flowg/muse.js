@@ -1,42 +1,62 @@
+/**
+ * Nx imports
+ */
 import {
   checkFilesExist,
-  ensureNxProject,
-  readJson,
-  runNxCommandAsync,
-  uniq,
+  runNxCommandAsync
 } from '@nrwl/nx-plugin/testing';
-describe('ng-sls e2e', () => {
-  it('should create ng-sls', async () => {
-    const plugin = uniq('ng-sls');
-    ensureNxProject('@muse.js/ng-sls', 'dist/packages/ng-sls');
-    await runNxCommandAsync(`generate @muse.js/ng-sls:ng-sls ${plugin}`);
 
-    const result = await runNxCommandAsync(`build ${plugin}`);
-    expect(result.stdout).toContain('Executor ran');
-  }, 120000);
+/**
+ * Internal imports
+ */
+import {
+  getExpectedFilesPaths,
+  getTestForDirectoryOption,
+  getTestForTagsOption,
+  runGeneratorForPlugin
+} from '../../common.utils';
+import { PLUGIN_NAME } from './plugin-name';
+import {
+  ROOT_FILES,
+  SRC_FILES
+} from './apps-structure/expected-files';
 
-  describe('--directory', () => {
-    it('should create src in the specified directory', async () => {
-      const plugin = uniq('ng-sls');
-      ensureNxProject('@muse.js/ng-sls', 'dist/packages/ng-sls');
-      await runNxCommandAsync(
-        `generate @muse.js/ng-sls:ng-sls ${plugin} --directory subdir`
-      );
-      expect(() =>
-        checkFilesExist(`libs/subdir/${plugin}/src/index.ts`)
-      ).not.toThrow();
-    }, 120000);
+/**
+ * TypeScript entities and constants
+ */
+const generatorName = 'app';
+
+describe(`The ${PLUGIN_NAME} plugin, with the ${generatorName} generator,`, () => {
+  getTestForDirectoryOption(PLUGIN_NAME, generatorName);
+  getTestForTagsOption(PLUGIN_NAME, generatorName);
+
+  fit('should create an Angular app, served through AWS Lambda, by default', async () => {
+    const appName: string = await runGeneratorForPlugin(PLUGIN_NAME, generatorName);
+
+    // Computing expected files paths
+    const rootFiles: string[] = getExpectedFilesPaths(ROOT_FILES, appName);
+    const srcFiles: string[] = getExpectedFilesPaths(SRC_FILES, appName);
+
+    // Checking the app has the proper files
+    expect(() =>
+               checkFilesExist(
+                   ...rootFiles,
+                   ...srcFiles
+               )
+    ).not.toThrow();
   });
 
-  describe('--tags', () => {
-    it('should add tags to nx.json', async () => {
-      const plugin = uniq('ng-sls');
-      ensureNxProject('@muse.js/ng-sls', 'dist/packages/ng-sls');
-      await runNxCommandAsync(
-        `generate @muse.js/ng-sls:ng-sls ${plugin} --tags e2etag,e2ePackage`
-      );
-      const nxJson = readJson('nx.json');
-      expect(nxJson.projects[plugin].tags).toEqual(['e2etag', 'e2ePackage']);
-    }, 120000);
-  });
+  /*it('should create a Nest app, that we can deploy to AWS Lambda', async () => {
+    const appName: string = await runGeneratorForPlugin(PLUGIN_NAME, generatorName);
+    const result: { stdout: string; stderr: string } = await runNxCommandAsync(`deploy ${appName}`);
+
+    /!*
+     * Making sure we don't create "ghost apps" on our AWS account
+     * every time we run e2e tests
+     *!/
+    await runNxCommandAsync(`remove ${appName}`);
+
+    expect(result.stdout).toMatch(`Uploading service ${appName}.zip file to S3`);
+    expect(result.stdout).toMatch('Stack update finished...');
+  });*/
 });

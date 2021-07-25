@@ -11,4 +11,5 @@ module.exports = {
   },
   moduleFileExtensions: ['ts', 'js', 'html'],
   coverageDirectory: '../../coverage/e2e/ng-sls-e2e',
+  testTimeout: 10 * 60 * 1000
 };

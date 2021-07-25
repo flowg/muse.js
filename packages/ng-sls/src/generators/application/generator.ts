@@ -32,10 +32,10 @@ import {
  * Internal imports
  */
 import { NgSlsAppGeneratorSchema } from './schema';
-import {
+/*import {
   DEPENDENCIES,
   DEV_DEPENDENCIES
-} from './dependencies';
+} from './dependencies';*/
 
 function generateProjectConfiguration(normalizedOptions: NormalizedSchema<NgSlsAppGeneratorSchema>): ProjectConfiguration & NxJsonProjectConfiguration {
   // TODO: Check targets
@@ -71,7 +71,7 @@ function generateProjectConfiguration(normalizedOptions: NormalizedSchema<NgSlsA
   };
 }
 
-export default async function (host: Tree, options: NgSlsAppGeneratorSchema): Promise<GeneratorCallback> {
+export default async function (host: Tree, options: NgSlsAppGeneratorSchema): Promise<void> {
   const normalizedOptions: NormalizedSchema<NgSlsAppGeneratorSchema> = normalizeOptions(host, options);
 
   // Generating a basic Angular app
@@ -85,17 +85,17 @@ export default async function (host: Tree, options: NgSlsAppGeneratorSchema): Pr
    * the newly created Angular + Serverless application can build properly
    * TODO: Adapt dependencies
    */
-  const installTask: GeneratorCallback = addDependenciesToPackageJson(
+  /*const installTask: GeneratorCallback = addDependenciesToPackageJson(
       host,
       DEPENDENCIES,
       DEV_DEPENDENCIES
   );
 
-  /*
+  /!*
    * Improving default TypeScript configuration to prevent
    * any warning during the compilation of lambda.ts
    * TODO: Check if it's still necessary
-   */
+   *!/
   updateJson(
       host,
       joinPathFragments(normalizedOptions.projectRoot, 'tsconfig.json'),
@@ -107,7 +107,7 @@ export default async function (host: Tree, options: NgSlsAppGeneratorSchema): Pr
           }
         };
       }
-  );
+  );*/
 
   // Generating files from templates
   addFiles(host, normalizedOptions, path.join(__dirname, 'templates'));
@@ -115,5 +115,5 @@ export default async function (host: Tree, options: NgSlsAppGeneratorSchema): Pr
   // Formatting files according to Prettier
   await formatFiles(host);
 
-  return installTask;
+  // return installTask;
 }
