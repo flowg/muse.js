@@ -4,5 +4,5 @@ component: website
 inputs:
   src:
     src: ./src
-    hook: npm run build
-    dist: ./dist
+    hook: nx build <%= name %>
+    dist: ../../dist/apps/<%= name %>
