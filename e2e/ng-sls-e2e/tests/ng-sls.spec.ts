@@ -30,7 +30,7 @@ describe(`The ${PLUGIN_NAME} plugin, with the ${generatorName} generator,`, () =
   getTestForDirectoryOption(PLUGIN_NAME, generatorName);
   getTestForTagsOption(PLUGIN_NAME, generatorName);
 
-  fit('should create an Angular app, served through AWS Lambda, by default', async () => {
+  it('should create an Angular app, served through AWS Lambda, by default', async () => {
     const appName: string = await runGeneratorForPlugin(PLUGIN_NAME, generatorName);
 
     // Computing expected files paths
@@ -46,17 +46,16 @@ describe(`The ${PLUGIN_NAME} plugin, with the ${generatorName} generator,`, () =
     ).not.toThrow();
   });
 
-  /*it('should create a Nest app, that we can deploy to AWS Lambda', async () => {
+  it('should create an Angular app, that we can deploy to AWS S3', async () => {
     const appName: string = await runGeneratorForPlugin(PLUGIN_NAME, generatorName);
     const result: { stdout: string; stderr: string } = await runNxCommandAsync(`deploy ${appName}`);
 
-    /!*
+    /*
      * Making sure we don't create "ghost apps" on our AWS account
      * every time we run e2e tests
-     *!/
+     */
     await runNxCommandAsync(`remove ${appName}`);
 
-    expect(result.stdout).toMatch(`Uploading service ${appName}.zip file to S3`);
-    expect(result.stdout).toMatch('Stack update finished...');
-  });*/
+    expect(result.stdout).toMatch('Serverless › Success');
+  });
 });
