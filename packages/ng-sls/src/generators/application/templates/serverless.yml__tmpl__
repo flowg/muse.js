@@ -1,0 +1,8 @@
+name: <%= name %>
+component: website
+
+inputs:
+  src:
+    src: ./src
+    hook: nx build <%= name %>
+    dist: ../../dist/apps/<%= name %>

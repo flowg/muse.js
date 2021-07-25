@@ -4,8 +4,13 @@
 import {
     getWorkspaceLayout,
     names,
+    NxJsonProjectConfiguration,
     offsetFromRoot,
-    Tree
+    ProjectConfiguration,
+    readProjectConfiguration,
+    TargetConfiguration,
+    Tree,
+    updateProjectConfiguration
 } from '@nrwl/devkit';
 
 /**
@@ -40,6 +45,20 @@ export function normalizeOptions<T extends MinimalSchema>(
         projectDirectory,
         parsedTags
     };
+}
+
+export function addTargets2ProjectConfiguration<T extends MinimalSchema>(
+    host: Tree,
+    normalizedOptions: NormalizedSchema<T>,
+    newTargets: Record<string, TargetConfiguration>
+): void {
+    const project: ProjectConfiguration & NxJsonProjectConfiguration = readProjectConfiguration(
+        host, normalizedOptions.projectName);
+    project.targets = {
+        ...project.targets,
+        ...newTargets
+    };
+    updateProjectConfiguration(host, normalizedOptions.projectName, project);
 }
 
 export function addFiles<T extends MinimalSchema>(

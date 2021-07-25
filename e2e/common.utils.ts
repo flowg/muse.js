@@ -67,6 +67,7 @@ export function getTestForDirectoryOption(pluginName: string, generatorName: str
         it('should create src in the specified directory', async () => {
             const directory: string = 'subdir';
             const appName: string = await runGeneratorForPlugin(pluginName, generatorName, `--directory ${directory}`);
+            // TODO: Change 'apps' into something generic
             expect(() =>
                        checkFilesExist(`apps/${directory}/${appName}/src/main.ts`)
             ).not.toThrow();

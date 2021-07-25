@@ -23,6 +23,9 @@
     }
   },
   "projects": {
+    "mneme": {
+      "tags": []
+    },
     "nativescript": {
       "tags": []
     },
@@ -37,8 +40,12 @@
       "tags": [],
       "implicitDependencies": ["nest-sls"]
     },
-    "mneme": {
+    "ng-sls": {
       "tags": []
+    },
+    "ng-sls-e2e": {
+      "tags": [],
+      "implicitDependencies": ["ng-sls"]
     }
   },
   "workspaceLayout": {
