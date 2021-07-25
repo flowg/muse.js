@@ -159,6 +159,22 @@
                 "output": "."
               }
             ]
+          },
+          "configurations": {
+            "e2e": {
+              "updateBuildableProjectDepsInPackageJson": false
+            }
+          }
+        },
+        "build-e2e": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "nx run nest-sls:build:e2e --with-deps",
+              "mkdir -p dist/node_modules/@muse.js",
+              "cp -R dist/packages/ dist/node_modules/@muse.js"
+            ],
+            "parallel": false
           }
         }
       }
@@ -171,7 +187,7 @@
         "e2e": {
           "executor": "@nrwl/nx-plugin:e2e",
           "options": {
-            "target": "nest-sls:build",
+            "target": "nest-sls:build-e2e",
             "npmPackageName": "@muse.js/nest-sls",
             "pluginOutputPath": "dist/packages/nest-sls",
             "jestConfig": "e2e/nest-sls-e2e/jest.config.js"
@@ -229,6 +245,22 @@
                 "output": "."
               }
             ]
+          },
+          "configurations": {
+            "e2e": {
+              "updateBuildableProjectDepsInPackageJson": false
+            }
+          }
+        },
+        "build-e2e": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "nx run ng-sls:build:e2e --with-deps",
+              "mkdir -p dist/node_modules/@muse.js",
+              "cp -R dist/packages/ dist/node_modules/@muse.js"
+            ],
+            "parallel": false
           }
         }
       }
@@ -241,7 +273,7 @@
         "e2e": {
           "executor": "@nrwl/nx-plugin:e2e",
           "options": {
-            "target": "ng-sls:build",
+            "target": "ng-sls:build-e2e",
             "npmPackageName": "@muse.js/ng-sls",
             "pluginOutputPath": "dist/packages/ng-sls",
             "jestConfig": "e2e/ng-sls-e2e/jest.config.js"
