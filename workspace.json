@@ -30,6 +30,16 @@
             "jestConfig": "packages/mneme/jest.config.js",
             "passWithNoTests": true
           }
+        },
+        "publish": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "nx build mneme",
+              "npm publish dist/packages/mneme"
+            ],
+            "parallel": false
+          }
         }
       }
     },
@@ -92,6 +102,16 @@
               "nx run nativescript:build:e2e --with-deps",
               "mkdir -p dist/node_modules/@muse.js",
               "cp -R dist/packages/ dist/node_modules/@muse.js"
+            ],
+            "parallel": false
+          }
+        },
+        "publish": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "nx run nativescript:build --with-deps",
+              "npm publish dist/packages/nativescript"
             ],
             "parallel": false
           }
@@ -173,6 +193,16 @@
               "nx run nest-sls:build:e2e --with-deps",
               "mkdir -p dist/node_modules/@muse.js",
               "cp -R dist/packages/ dist/node_modules/@muse.js"
+            ],
+            "parallel": false
+          }
+        },
+        "publish": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "nx run nest-sls:build --with-deps",
+              "npm publish dist/packages/nest-sls"
             ],
             "parallel": false
           }
@@ -259,6 +289,16 @@
               "nx run ng-sls:build:e2e --with-deps",
               "mkdir -p dist/node_modules/@muse.js",
               "cp -R dist/packages/ dist/node_modules/@muse.js"
+            ],
+            "parallel": false
+          }
+        },
+        "publish": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "nx run ng-sls:build --with-deps",
+              "npm publish dist/packages/ng-sls"
             ],
             "parallel": false
           }
