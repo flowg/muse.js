@@ -15,6 +15,7 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
+      "@muse.js/apollo": ["packages/apollo/src/index.ts"],
       "@muse.js/mneme": ["packages/mneme/src/index.ts"],
       "@muse.js/nativescript": ["packages/nativescript/src/index.ts"],
       "@muse.js/nest-sls": ["packages/nest-sls/src/index.ts"],
