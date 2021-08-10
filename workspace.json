@@ -20,15 +20,25 @@
             "passWithNoTests": true
           }
         },
-        "build": {
+        "build-base": {
           "executor": "@nrwl/node:package",
           "outputs": ["{options.outputPath}"],
           "options": {
             "outputPath": "dist/packages/apollo",
             "tsConfig": "packages/apollo/tsconfig.lib.json",
             "packageJson": "packages/apollo/package.json",
-            "main": "packages/apollo/src/index.ts",
+            "main": "packages/apollo/bin/apollo.ts",
             "assets": ["packages/apollo/*.md"]
+          }
+        },
+        "build": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "commands": [
+              "nx run apollo:build-base",
+              "node ./tools/chmod dist/packages/apollo/bin/apollo.js"
+            ],
+            "parallel": false
           }
         }
       }
