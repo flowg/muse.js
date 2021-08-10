@@ -1,6 +1,7 @@
 {
   "name": "muse.js",
   "version": "0.0.0",
+  "author": "Florian Gesta",
   "license": "MIT",
   "scripts": {
     "nx": "nx",
