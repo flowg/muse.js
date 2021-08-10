@@ -1,0 +1,17 @@
+{
+  "root": "e2e/ng-sls",
+  "projectType": "application",
+  "sourceRoot": "e2e/ng-sls/src",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/nx-plugin:e2e",
+      "options": {
+        "target": "ng-sls:build-e2e",
+        "npmPackageName": "@muse.js/ng-sls",
+        "pluginOutputPath": "dist/packages/ng-sls",
+        "jestConfig": "e2e/ng-sls/jest.config.js"
+      }
+    }
+  },
+  "implicitDependencies": ["ng-sls"]
+}

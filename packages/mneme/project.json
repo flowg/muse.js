@@ -1,0 +1,39 @@
+{
+  "root": "packages/mneme",
+  "sourceRoot": "packages/mneme",
+  "projectType": "library",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:package",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/packages/mneme",
+        "tsConfig": "packages/mneme/tsconfig.lib.json",
+        "packageJson": "packages/mneme/package.json",
+        "main": "packages/mneme/src/index.ts",
+        "assets": ["packages/mneme/*.md"]
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["packages/mneme/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/packages/mneme"],
+      "options": {
+        "jestConfig": "packages/mneme/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": ["nx build mneme", "npm publish dist/packages/mneme"],
+        "parallel": false
+      }
+    }
+  }
+}
