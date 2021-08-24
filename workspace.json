@@ -1,6 +1,7 @@
 {
   "version": 2,
   "projects": {
+    "apollo": "applications/apollo",
     "mneme": "libraries/mneme",
     "nativescript": "libraries/nativescript",
     "nativescript-e2e": "applications/nativescript-e2e",

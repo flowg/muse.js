@@ -6,6 +6,7 @@ module.exports = {
     '<rootDir>/applications/nest-sls-e2e',
     '<rootDir>/libraries/mneme',
     '<rootDir>/libraries/ng-sls',
-    '<rootDir>/applications/ng-sls-e2e'
+    '<rootDir>/applications/ng-sls-e2e',
+    '<rootDir>/applications/apollo'
   ],
 };
