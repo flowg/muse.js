@@ -24,7 +24,7 @@ export async function runGeneratorForPlugin(
     generatorOptions: string = ''
 ): Promise<string> {
     const appName: string = uniq(pluginName);
-    ensureNxProject(`@muse.js/${pluginName}`, `dist/packages/${pluginName}`);
+    ensureNxProject(`@muse.js/${pluginName}`, `dist/libraries/${pluginName}`);
     const result: { stdout: string; stderr: string } = await runNxCommandAsync(
         `generate @muse.js/${pluginName}:${generatorName} ${appName} ${generatorOptions}`
     );

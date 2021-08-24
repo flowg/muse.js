@@ -1,19 +1,19 @@
 {
-  "root": "packages/ng-sls",
-  "sourceRoot": "packages/ng-sls/src",
+  "root": "libraries/ng-sls",
+  "sourceRoot": "libraries/ng-sls/src",
   "projectType": "library",
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "options": {
-        "lintFilePatterns": ["packages/ng-sls/**/*.ts"]
+        "lintFilePatterns": ["libraries/ng-sls/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/ng-sls"],
+      "outputs": ["coverage/libraries/ng-sls"],
       "options": {
-        "jestConfig": "packages/ng-sls/jest.config.js",
+        "jestConfig": "libraries/ng-sls/jest.config.js",
         "passWithNoTests": true
       }
     },
@@ -21,29 +21,29 @@
       "executor": "@nrwl/node:package",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/ng-sls",
-        "tsConfig": "packages/ng-sls/tsconfig.lib.json",
-        "packageJson": "packages/ng-sls/package.json",
-        "main": "packages/ng-sls/src/index.ts",
+        "outputPath": "dist/libraries/ng-sls",
+        "tsConfig": "libraries/ng-sls/tsconfig.lib.json",
+        "packageJson": "libraries/ng-sls/package.json",
+        "main": "libraries/ng-sls/src/index.ts",
         "assets": [
-          "packages/ng-sls/*.md",
+          "libraries/ng-sls/*.md",
           {
-            "input": "./packages/ng-sls/src",
+            "input": "./libraries/ng-sls/src",
             "glob": "**/!(*.ts)",
             "output": "./src"
           },
           {
-            "input": "./packages/ng-sls/src",
+            "input": "./libraries/ng-sls/src",
             "glob": "**/*.d.ts",
             "output": "./src"
           },
           {
-            "input": "./packages/ng-sls",
+            "input": "./libraries/ng-sls",
             "glob": "generators.json",
             "output": "."
           },
           {
-            "input": "./packages/ng-sls",
+            "input": "./libraries/ng-sls",
             "glob": "executors.json",
             "output": "."
           }
@@ -61,7 +61,7 @@
         "commands": [
           "nx run ng-sls:build:e2e --with-deps",
           "mkdir -p dist/node_modules/@muse.js",
-          "cp -R dist/packages/ dist/node_modules/@muse.js"
+          "cp -R dist/libraries/ dist/node_modules/@muse.js"
         ],
         "parallel": false
       }
@@ -71,7 +71,7 @@
       "options": {
         "commands": [
           "nx run ng-sls:build --with-deps",
-          "npm publish dist/packages/ng-sls"
+          "npm publish dist/libraries/ng-sls"
         ],
         "parallel": false
       }

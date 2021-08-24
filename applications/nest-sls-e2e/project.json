@@ -1,15 +1,13 @@
 {
   "projectType": "application",
-  "root": "e2e/nest-sls",
-  "sourceRoot": "e2e/nest-sls/src",
+  "root": "applications/nest-sls-e2e",
+  "sourceRoot": "applications/nest-sls-e2e/src",
   "targets": {
     "e2e": {
       "executor": "@nrwl/nx-plugin:e2e",
       "options": {
         "target": "nest-sls:build-e2e",
-        "npmPackageName": "@muse.js/nest-sls",
-        "pluginOutputPath": "dist/packages/nest-sls",
-        "jestConfig": "e2e/nest-sls/jest.config.js"
+        "jestConfig": "applications/nest-sls-e2e/jest.config.js"
       }
     }
   },

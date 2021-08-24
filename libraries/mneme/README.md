@@ -6,7 +6,7 @@ of [Mnemosyne](https://en.wikipedia.org/wiki/Mnemosyne), the goddess of Memory a
 Memory is therefore recognized as necessary for the learning and mastering of all Arts and Sciences... just like
 Web Development 😉
 
-As such, this library encompasses everything that is necessary to the other packages of this workspace,
+As such, this library encompasses everything that is necessary to the other libraries of this workspace,
 that act as Nx plugins.
 
 This library was generated with [Nx](https://nx.dev).

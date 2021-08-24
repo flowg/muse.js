@@ -1,14 +1,13 @@
 {
   "version": 2,
   "projects": {
-    "apollo": "packages/apollo",
-    "mneme": "packages/mneme",
-    "nativescript": "packages/nativescript",
-    "nativescript-e2e": "e2e/nativescript",
-    "nest-sls": "packages/nest-sls",
-    "nest-sls-e2e": "e2e/nest-sls",
-    "ng-sls": "packages/ng-sls",
-    "ng-sls-e2e": "e2e/ng-sls"
+    "mneme": "libraries/mneme",
+    "nativescript": "libraries/nativescript",
+    "nativescript-e2e": "applications/nativescript-e2e",
+    "nest-sls": "libraries/nest-sls",
+    "nest-sls-e2e": "applications/nest-sls-e2e",
+    "ng-sls": "libraries/ng-sls",
+    "ng-sls-e2e": "applications/ng-sls-e2e"
   },
   "cli": {
     "defaultCollection": "@nrwl/workspace"

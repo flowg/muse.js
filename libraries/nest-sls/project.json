@@ -1,19 +1,19 @@
 {
-  "root": "packages/nest-sls",
-  "sourceRoot": "packages/nest-sls/src",
+  "root": "libraries/nest-sls",
+  "sourceRoot": "libraries/nest-sls/src",
   "projectType": "library",
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "options": {
-        "lintFilePatterns": ["packages/nest-sls/**/*.ts"]
+        "lintFilePatterns": ["libraries/nest-sls/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/nest-sls"],
+      "outputs": ["coverage/libraries/nest-sls"],
       "options": {
-        "jestConfig": "packages/nest-sls/jest.config.js",
+        "jestConfig": "libraries/nest-sls/jest.config.js",
         "passWithNoTests": true
       }
     },
@@ -21,24 +21,24 @@
       "executor": "@nrwl/node:package",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/nest-sls",
-        "tsConfig": "packages/nest-sls/tsconfig.lib.json",
-        "packageJson": "packages/nest-sls/package.json",
-        "main": "packages/nest-sls/src/index.ts",
+        "outputPath": "dist/libraries/nest-sls",
+        "tsConfig": "libraries/nest-sls/tsconfig.lib.json",
+        "packageJson": "libraries/nest-sls/package.json",
+        "main": "libraries/nest-sls/src/index.ts",
         "assets": [
-          "packages/nest-sls/*.md",
+          "libraries/nest-sls/*.md",
           {
-            "input": "./packages/nest-sls/src",
+            "input": "./libraries/nest-sls/src",
             "glob": "**/*.!(ts)",
             "output": "./src"
           },
           {
-            "input": "./packages/nest-sls",
+            "input": "./libraries/nest-sls",
             "glob": "generators.json",
             "output": "."
           },
           {
-            "input": "./packages/nest-sls",
+            "input": "./libraries/nest-sls",
             "glob": "executors.json",
             "output": "."
           }
@@ -56,7 +56,7 @@
         "commands": [
           "nx run nest-sls:build:e2e --with-deps",
           "mkdir -p dist/node_modules/@muse.js",
-          "cp -R dist/packages/ dist/node_modules/@muse.js"
+          "cp -R dist/libraries/ dist/node_modules/@muse.js"
         ],
         "parallel": false
       }
@@ -66,7 +66,7 @@
       "options": {
         "commands": [
           "nx run nest-sls:build --with-deps",
-          "npm publish dist/packages/nest-sls"
+          "npm publish dist/libraries/nest-sls"
         ],
         "parallel": false
       }

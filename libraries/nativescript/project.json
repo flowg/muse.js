@@ -1,19 +1,19 @@
 {
-  "root": "packages/nativescript",
-  "sourceRoot": "packages/nativescript",
+  "root": "libraries/nativescript",
+  "sourceRoot": "libraries/nativescript/src",
   "projectType": "library",
   "targets": {
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "options": {
-        "lintFilePatterns": ["packages/nativescript/**/*.ts"]
+        "lintFilePatterns": ["libraries/nativescript/**/*.ts"]
       }
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/packages/nativescript"],
+      "outputs": ["coverage/libraries/nativescript"],
       "options": {
-        "jestConfig": "packages/nativescript/jest.config.js",
+        "jestConfig": "libraries/nativescript/jest.config.js",
         "passWithNoTests": true
       }
     },
@@ -21,24 +21,24 @@
       "executor": "@nrwl/node:package",
       "outputs": ["{options.outputPath}"],
       "options": {
-        "outputPath": "dist/packages/nativescript",
-        "tsConfig": "packages/nativescript/tsconfig.lib.json",
-        "packageJson": "packages/nativescript/package.json",
-        "main": "packages/nativescript/src/index.ts",
+        "outputPath": "dist/libraries/nativescript",
+        "tsConfig": "libraries/nativescript/tsconfig.lib.json",
+        "packageJson": "libraries/nativescript/package.json",
+        "main": "libraries/nativescript/src/index.ts",
         "assets": [
-          "packages/nativescript/*.md",
+          "libraries/nativescript/*.md",
           {
-            "input": "./packages/nativescript/src",
+            "input": "./libraries/nativescript/src",
             "glob": "**/*.!(ts)",
             "output": "./src"
           },
           {
-            "input": "./packages/nativescript",
+            "input": "./libraries/nativescript",
             "glob": "generators.json",
             "output": "."
           },
           {
-            "input": "./packages/nativescript",
+            "input": "./libraries/nativescript",
             "glob": "executors.json",
             "output": "."
           }
@@ -56,7 +56,7 @@
         "commands": [
           "nx run nativescript:build:e2e --with-deps",
           "mkdir -p dist/node_modules/@muse.js",
-          "cp -R dist/packages/ dist/node_modules/@muse.js"
+          "cp -R dist/libraries/ dist/node_modules/@muse.js"
         ],
         "parallel": false
       }
@@ -66,7 +66,7 @@
       "options": {
         "commands": [
           "nx run nativescript:build --with-deps",
-          "npm publish dist/packages/nativescript"
+          "npm publish dist/libraries/nativescript"
         ],
         "parallel": false
       }

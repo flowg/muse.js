@@ -1,5 +1,5 @@
 module.exports = {
-    displayName: 'nest-sls-e2e',
+    displayName: 'nativescript-e2e',
     preset: '../../jest.preset.js',
     globals: {
         'ts-jest': {
@@ -10,6 +10,7 @@ module.exports = {
         '^.+\\.[tj]s$': 'ts-jest',
     },
     moduleFileExtensions: ['ts', 'js', 'html'],
-    coverageDirectory: '../../coverage/e2e/nest-sls',
-    testTimeout: 10 * 60 * 1000
+    coverageDirectory: '../../coverage/applications/nativescript-e2e',
+    testTimeout: 10 * 60 * 1000,
+    useStderr: true
 };
