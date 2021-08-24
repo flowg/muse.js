@@ -10,7 +10,15 @@
         "outputPath": "dist/applications/apollo",
         "main": "applications/apollo/src/main.ts",
         "tsConfig": "applications/apollo/tsconfig.app.json",
-        "assets": ["applications/apollo/src/assets"]
+        "generatePackageJson": true,
+        "assets": [
+          "applications/apollo/src/assets",
+          {
+            "input": "./applications/apollo/src",
+            "glob": "apollo.js",
+            "output": "."
+          }
+        ]
       },
       "configurations": {
         "production": {
