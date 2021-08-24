@@ -59,7 +59,7 @@
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "commands": [
-          "nx run ng-sls:build:e2e --with-deps",
+          "nx run ng-sls:build:e2e",
           "mkdir -p dist/node_modules/@muse.js",
           "cp -R dist/libraries/ dist/node_modules/@muse.js"
         ],
@@ -70,7 +70,7 @@
       "executor": "@nrwl/workspace:run-commands",
       "options": {
         "commands": [
-          "nx run ng-sls:build --with-deps",
+          "nx run ng-sls:build",
           "npm publish dist/libraries/ng-sls"
         ],
         "parallel": false
