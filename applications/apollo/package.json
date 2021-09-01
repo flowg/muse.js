@@ -1,9 +1,9 @@
 {
   "name": "@muse.js/apollo",
   "version": "0.0.1",
-  "main": "main.js",
+  "main": "main.ts",
   "bin": {
-    "apollo": "apollo.js"
+    "apollo": "bin.js"
   },
   "author": "Florian Gesta",
   "license": "MIT"

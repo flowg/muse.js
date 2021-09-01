@@ -15,7 +15,7 @@
           "applications/apollo/src/assets",
           {
             "input": "./applications/apollo/src",
-            "glob": "apollo.js",
+            "glob": "bin.js",
             "output": "."
           }
         ]

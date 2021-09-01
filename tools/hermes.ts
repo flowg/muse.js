@@ -1,5 +1,5 @@
 export class Hermes {
-    sayHello(): void {
+    introduceApollo(): void {
         console.log("Hello 🖖, I'm Hermes 😁");
     }
 }
