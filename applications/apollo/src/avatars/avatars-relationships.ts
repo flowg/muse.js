@@ -11,5 +11,8 @@ export type AvatarImport = () => Promise<AvatarClass>;
 export const AVATARS_RELATIONSHIPS: Record<string, AvatarImport[]> = {
     Apollo: [
         () => import('./apollo-for-project-creation').then( module => module.ApolloForProjectCreation )
+    ],
+    ApolloForProjectCreation: [
+        () => import('./apollo-for-front-end-app').then( module => module.ApolloForFrontEndApp )
     ]
 };
