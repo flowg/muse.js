@@ -27,11 +27,17 @@ export class ApolloForProjectCreation extends ApolloAvatar {
             name: PLUGGABLE_QUESTION,
             message: 'What kind of project would you like to create ?',
             choices: []
+        },
+        'projectName': {
+            type: 'input',
+            name: 'projectName',
+            message: 'How would you like to call your new project ?'
         }
     }
 
     async getSummoned(): Promise<void> {
         console.log('ApolloForProjectCreation is being summoned !!!')
         await this.askThisQuestion( PLUGGABLE_QUESTION );
+        await this.askThisQuestion( 'projectName' );
     }
 }

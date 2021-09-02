@@ -14,9 +14,11 @@ export class ApolloForFrontEndApp extends ApolloAvatar {
             name: 'frontEndApp',
             message: 'Create a new Front-End application'
         }
-    }
+    };
 
     async getSummoned(): Promise<void> {
-        console.log('ApolloForFrontEndApp is being summoned !!!')
+        console.log( 'ApolloForFrontEndApp is being summoned !!!' );
+
+        await this.executeCommand( 'npx create-nx-workspace', __dirname );
     }
 }

@@ -1,4 +1,16 @@
 /**
+ * Node.js imports
+ */
+import {
+    exec,
+    ExecException,
+    spawn,
+    spawnSync
+} from 'child_process';
+import path from 'path';
+import { writeFileSync } from 'fs';
+
+/**
  * 3rd-party imports
  */
 import { prompt } from 'enquirer';
@@ -89,23 +101,34 @@ export abstract class ApolloAvatar {
 
         const answer: Record<string, string> = await prompt( {
                                                                  ...question2Ask,
-                                                                 format( value: string ): string {
+                                                                 format( providedValue: string ): string {
+                                                                     let value2Display: string = providedValue;
                                                                      if ( question2Ask.choices ) {
-                                                                         return question2Ask.choices.find(
-                                                                             ( choice: Answer ) => choice.name === value )?.message;
+                                                                         value2Display = question2Ask.choices.find(
+                                                                             ( choice: Answer ) => choice.name === providedValue
+                                                                         )?.message;
                                                                      }
 
-                                                                     return value;
+                                                                     return this.styles.primary( value2Display );
                                                                  }
                                                              } );
 
         console.log( answer );
 
+        // TODO: Always save the answer to the shared state in the Oracle, THEN check for triggers
         // Checking first if the provided answer is a trigger
         const avatarClass: NewableAvatarClass = (this.triggers[answer[questionId]] as unknown) as NewableAvatarClass;
         if ( avatarClass ) {
             new avatarClass();
         }
+    }
+
+    protected executeCommand( command: string, cwd: string ): void {
+        const ls = spawnSync( 'npx', [ 'create-nx-workspace' ], { stdio: 'inherit' } );
+
+        console.log( `child process errored with error ${ls.error}` );
+
+        console.log( `child process exited with code ${ls.status}` );
     }
 
     abstract getSummoned(): Promise<void>;
