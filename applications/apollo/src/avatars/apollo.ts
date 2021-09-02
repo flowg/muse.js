@@ -1,9 +1,4 @@
 /**
- * 3rd-party imports
- */
-import { prompt } from 'enquirer';
-
-/**
  * Internal imports
  */
 import { Hermes } from 'tools/hermes';
@@ -15,7 +10,7 @@ import {
 /**
  * TypeScript entities and constants
  */
-export const PLUGGABLE_QUESTION = 'A_Q_WORKFLOW_TYPE';
+export const PLUGGABLE_QUESTION = 'workflowType';
 
 export class Apollo extends ApolloAvatar {
     protected questions: Record<string, Question> = {
@@ -23,16 +18,7 @@ export class Apollo extends ApolloAvatar {
             type: 'select',
             name: PLUGGABLE_QUESTION,
             message: 'What would you like to do ?',
-            choices: [ {
-                name: 'APPLE',
-                message: 'apple'
-            }, {
-                name: 'CHERRY',
-                message: 'cherry'
-            }, {
-                name: 'watermelon',
-                message: 'watermelon'
-            } ]
+            choices: []
         }
     };
 
@@ -43,8 +29,6 @@ export class Apollo extends ApolloAvatar {
     async getSummoned(): Promise<void> {
         this.hermes.introduceApollo();
 
-        const response = await prompt( this.questions[PLUGGABLE_QUESTION] );
-
-        console.log( response );
+        await this.askThisQuestion( PLUGGABLE_QUESTION );
     }
 }
