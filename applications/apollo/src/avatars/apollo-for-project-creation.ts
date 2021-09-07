@@ -20,7 +20,7 @@ export class ApolloForProjectCreation extends ApolloAvatar {
             name: 'projectCreation',
             message: 'Create a new project in a new workspace'
         }
-    }
+    };
     protected questions: Record<string, Question> = {
         [PLUGGABLE_QUESTION]: {
             type: 'select',
@@ -33,11 +33,20 @@ export class ApolloForProjectCreation extends ApolloAvatar {
             name: 'projectName',
             message: 'How would you like to call your new project ?'
         }
-    }
+    };
 
     async getSummoned(): Promise<void> {
-        console.log('ApolloForProjectCreation is being summoned !!!')
+        console.log( 'ApolloForProjectCreation is being summoned !!!' );
         await this.askThisQuestion( PLUGGABLE_QUESTION );
         await this.askThisQuestion( 'projectName' );
+
+        const projectName: string = this.oracle.usersWishes['projectName'] as string;
+        const args: string[] = [
+            'create-nx-workspace',
+            `--name="${projectName}"`,
+            `--preset="empty"`,
+            `--nxCloud=false`
+        ];
+        this.oracle.addAFulfillmentStep( { command: 'npx', args } );
     }
 }

@@ -6,6 +6,7 @@ import {
     ApolloAvatar,
     Question
 } from './apollo-avatar';
+import { Oracle } from '../oracle';
 
 /**
  * TypeScript entities and constants
@@ -22,13 +23,16 @@ export class Apollo extends ApolloAvatar {
         }
     };
 
-    constructor( private hermes: Hermes ) {
-        super();
+    constructor( private hermes: Hermes, protected oracle: Oracle ) {
+        super( oracle );
+        console.log('Inside constructor() for Apollo, AFTER super()')
     }
 
     async getSummoned(): Promise<void> {
+        console.log('Inside getSummoned() for Apollo, before Hermes')
         this.hermes.introduceApollo();
 
         await this.askThisQuestion( PLUGGABLE_QUESTION );
+        console.log('Inside getSummoned() for Apollo, AFTER askThisQuestion()')
     }
 }

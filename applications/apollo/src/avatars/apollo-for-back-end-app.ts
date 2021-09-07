@@ -7,17 +7,17 @@ import {
 } from './apollo-avatar';
 import { PLUGGABLE_QUESTION as A4PC_PLUGGABLE_QUESTION } from './apollo-for-project-creation';
 
-export class ApolloForFrontEndApp extends ApolloAvatar {
+export class ApolloForBackEndApp extends ApolloAvatar {
     static readonly trigger: AvatarTrigger = {
         question: A4PC_PLUGGABLE_QUESTION,
         answer: {
-            name: 'frontEndApp',
-            message: 'Create a new Front-End application'
+            name: 'backEndApp',
+            message: 'Create a new Back-End application'
         }
     };
 
     async getSummoned(): Promise<void> {
-        console.log( 'ApolloForFrontEndApp is being summoned !!! About to call fulfillUsersWishes()' );
+        console.log( 'ApolloForBackEndApp is being summoned !!! About to call fulfillUsersWishes()' );
 
         // TODO: What happens if that avatar is not the last one ?
         // this.fulfillUsersWishes();

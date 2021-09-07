@@ -1,14 +1,7 @@
 /**
  * Node.js imports
  */
-import {
-    exec,
-    ExecException,
-    spawn,
-    spawnSync
-} from 'child_process';
-import path from 'path';
-import { writeFileSync } from 'fs';
+import { spawnSync } from 'child_process';
 
 /**
  * 3rd-party imports
@@ -22,12 +15,16 @@ import {
     AvatarImport,
     AVATARS_RELATIONSHIPS
 } from './avatars-relationships';
+import {
+    FulfillmentStep,
+    Oracle
+} from '../oracle';
 
 /**
  * TypeScript entities and constants
  */
 export type AvatarClass = typeof ApolloAvatar;
-type NewableAvatarClass = new () => ApolloAvatar;
+type NewableAvatarClass = new ( oracle: Oracle ) => ApolloAvatar;
 
 interface Answer {
     name: string;
@@ -52,15 +49,29 @@ export interface AvatarTrigger {
 const pluggableQuestionsTypes: string[] = [ 'select' ];
 
 export abstract class ApolloAvatar {
-    protected questions: Record<string, Question> = {};
-    protected triggers: Record<string, AvatarClass> = {};
     static readonly trigger: AvatarTrigger;
+    protected questions: Record<string, Question> = {};
+    private triggers: Record<string, AvatarClass> = {};
+    private avatars2Trigger: NewableAvatarClass[] = [];
 
-    constructor() {
-        this.linkAvatars().then( () => this.getSummoned() );
+    constructor( protected oracle: Oracle ) {
+        console.log('Initializing ApolloAvatar for ' + this.constructor.name)
+        this.initializeAvatar().then();
+        console.log('Inside ApolloAvatar constructor() for ' + this.constructor.name + ', AFTER initializeAvatar(), without await')
+    }
+
+    private async initializeAvatar(): Promise<void> {
+        console.log('Inside initializeAvatar() for ' + this.constructor.name + ', before linkAvatars()')
+        await this.linkAvatars();
+        console.log('Inside initializeAvatar() for ' + this.constructor.name + ', before getSummoned()')
+        await this.getSummoned();
+        console.log('Inside initializeAvatar() for ' + this.constructor.name + ', before checkingAvatars2Trigger()')
+        await this.checkingAvatars2Trigger();
+        console.log('Inside initializeAvatar() for ' + this.constructor.name + ', AFTER checkingAvatars2Trigger()')
     }
 
     private async linkAvatars(): Promise<void> {
+        console.log('Inside linkAvatars() for ' + this.constructor.name )
         const avatars2LinkWith: AvatarImport[] = AVATARS_RELATIONSHIPS[this.constructor.name];
 
         if ( avatars2LinkWith ) {
@@ -68,10 +79,13 @@ export abstract class ApolloAvatar {
                 avatars2LinkWith.map( ( avatarImport: AvatarImport ) => this.linkAvatar( avatarImport ) )
             );
         }
+        console.log('LEAVING linkAvatars() for ' + this.constructor.name )
     }
 
     private async linkAvatar( avatarImport: AvatarImport ): Promise<void> {
+        console.log('Inside linkAvatar() for ' + this.constructor.name + ', BEFORE importing')
         const avatarClass: AvatarClass = await avatarImport();
+        console.log('Inside linkAvatar() for ' + this.constructor.name + ', linking ' + avatarClass.name)
         this.registerTriggerFor( avatarClass );
     }
 
@@ -90,6 +104,13 @@ export abstract class ApolloAvatar {
 
         // 2) Registering the fact that when this answer is selected, the consequence is the avatar's instantiation
         this.triggers[trigger.answer.name] = avatarClass;
+    }
+
+    private async checkingAvatars2Trigger(): Promise<void> {
+        // TODO: Check what happens to the order of execution when there are more than one element in this array
+        for ( const avatar2Trigger of this.avatars2Trigger ) {
+            new avatar2Trigger( this.oracle );
+        }
     }
 
     protected async askThisQuestion( questionId: string ): Promise<void> {
@@ -113,22 +134,32 @@ export abstract class ApolloAvatar {
                                                                  }
                                                              } );
 
-        console.log( answer );
+        console.log( { answer } );
 
-        // TODO: Always save the answer to the shared state in the Oracle, THEN check for triggers
-        // Checking first if the provided answer is a trigger
+        // Saving the answer in the state shared by all avatars
+        this.oracle.addAWish( answer );
+        console.log( this.oracle.usersWishes );
+        // Checking if the provided answer is a trigger for an avatar
+        // TODO: Make sure it works for multiselect prompts
         const avatarClass: NewableAvatarClass = (this.triggers[answer[questionId]] as unknown) as NewableAvatarClass;
         if ( avatarClass ) {
-            new avatarClass();
+            this.avatars2Trigger.push( avatarClass );
         }
     }
 
-    protected executeCommand( command: string, cwd: string ): void {
-        const ls = spawnSync( 'npx', [ 'create-nx-workspace' ], { stdio: 'inherit' } );
+    // TODO: Check if cwd arg is really useful
+    protected fulfillUsersWishes(): void {
+        for ( const fulfillmentStep of this.oracle.fulfillmentSteps ) {
+            const childProcess = spawnSync(
+                fulfillmentStep.command,
+                fulfillmentStep.args,
+                { stdio: 'inherit', cwd: fulfillmentStep.cwd }
+            );
 
-        console.log( `child process errored with error ${ls.error}` );
+            console.log( `child process errored with error ${childProcess.error}` );
 
-        console.log( `child process exited with code ${ls.status}` );
+            console.log( `child process exited with code ${childProcess.status}` );
+        }
     }
 
     abstract getSummoned(): Promise<void>;

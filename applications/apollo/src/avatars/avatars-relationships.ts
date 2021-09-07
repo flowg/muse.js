@@ -13,6 +13,7 @@ export const AVATARS_RELATIONSHIPS: Record<string, AvatarImport[]> = {
         () => import('./apollo-for-project-creation').then( module => module.ApolloForProjectCreation )
     ],
     ApolloForProjectCreation: [
-        () => import('./apollo-for-front-end-app').then( module => module.ApolloForFrontEndApp )
+        () => import('./apollo-for-front-end-app').then( module => module.ApolloForFrontEndApp ),
+        () => import('./apollo-for-back-end-app').then( module => module.ApolloForBackEndApp )
     ]
 };
