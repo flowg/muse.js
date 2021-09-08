@@ -15,10 +15,7 @@ import {
     AvatarImport,
     AVATARS_RELATIONSHIPS
 } from './avatars-relationships';
-import {
-    FulfillmentStep,
-    Oracle
-} from '../oracle';
+import { Oracle } from '../oracle';
 
 /**
  * TypeScript entities and constants
@@ -46,7 +43,7 @@ export interface AvatarTrigger {
     answer: Answer;
 }
 
-const pluggableQuestionsTypes: string[] = [ 'select' ];
+const pluggableQuestionsTypes: string[] = [ 'select', 'multiselect' ];
 
 export abstract class ApolloAvatar {
     static readonly trigger: AvatarTrigger;
@@ -55,23 +52,27 @@ export abstract class ApolloAvatar {
     private avatars2Trigger: NewableAvatarClass[] = [];
 
     constructor( protected oracle: Oracle ) {
-        console.log('Initializing ApolloAvatar for ' + this.constructor.name)
-        this.initializeAvatar().then();
-        console.log('Inside ApolloAvatar constructor() for ' + this.constructor.name + ', AFTER initializeAvatar(), without await')
-    }
-
-    private async initializeAvatar(): Promise<void> {
-        console.log('Inside initializeAvatar() for ' + this.constructor.name + ', before linkAvatars()')
-        await this.linkAvatars();
-        console.log('Inside initializeAvatar() for ' + this.constructor.name + ', before getSummoned()')
-        await this.getSummoned();
-        console.log('Inside initializeAvatar() for ' + this.constructor.name + ', before checkingAvatars2Trigger()')
-        await this.checkingAvatars2Trigger();
-        console.log('Inside initializeAvatar() for ' + this.constructor.name + ', AFTER checkingAvatars2Trigger()')
+        /*
+         * TODO: Change the whole system to an event-driven one, based on Observables + Subjects.
+         *  Proposed events:
+         *  - avatarsLinked
+         *  - workCompleted
+         *  - triggerNewAvatar
+         *  - allAvatarsTriggered
+         */
+        console.log( 'Initializing ApolloAvatar for ' + this.constructor.name );
+        this.linkAvatars().then(async () => {
+            console.log( 'AFTER linkAvatars() for ' + this.constructor.name + ', before getSummoned()' );
+            await this.getSummoned();
+            console.log( 'AFTER linkAvatars() for ' + this.constructor.name + ', before checkingAvatars2Trigger()' );
+            await this.checkingAvatars2Trigger();
+            console.log( 'AFTER linkAvatars() for ' + this.constructor.name + ', AFTER checkingAvatars2Trigger()' );
+        });
+        console.log( 'Inside ApolloAvatar constructor() for ' + this.constructor.name + ', AFTER linkAvatars(), without await' );
     }
 
     private async linkAvatars(): Promise<void> {
-        console.log('Inside linkAvatars() for ' + this.constructor.name )
+        console.log( 'Inside linkAvatars() for ' + this.constructor.name );
         const avatars2LinkWith: AvatarImport[] = AVATARS_RELATIONSHIPS[this.constructor.name];
 
         if ( avatars2LinkWith ) {
@@ -79,13 +80,13 @@ export abstract class ApolloAvatar {
                 avatars2LinkWith.map( ( avatarImport: AvatarImport ) => this.linkAvatar( avatarImport ) )
             );
         }
-        console.log('LEAVING linkAvatars() for ' + this.constructor.name )
+        console.log( 'LEAVING linkAvatars() for ' + this.constructor.name );
     }
 
     private async linkAvatar( avatarImport: AvatarImport ): Promise<void> {
-        console.log('Inside linkAvatar() for ' + this.constructor.name + ', BEFORE importing')
+        console.log( 'Inside linkAvatar() for ' + this.constructor.name + ', BEFORE importing' );
         const avatarClass: AvatarClass = await avatarImport();
-        console.log('Inside linkAvatar() for ' + this.constructor.name + ', linking ' + avatarClass.name)
+        console.log( 'Inside linkAvatar() for ' + this.constructor.name + ', linking ' + avatarClass.name );
         this.registerTriggerFor( avatarClass );
     }
 
@@ -107,7 +108,6 @@ export abstract class ApolloAvatar {
     }
 
     private async checkingAvatars2Trigger(): Promise<void> {
-        // TODO: Check what happens to the order of execution when there are more than one element in this array
         for ( const avatar2Trigger of this.avatars2Trigger ) {
             new avatar2Trigger( this.oracle );
         }
@@ -120,19 +120,30 @@ export abstract class ApolloAvatar {
             throw new Error( `It seems '${questionId}' is not a question from ${this.constructor.name}` );
         }
 
-        const answer: Record<string, string> = await prompt( {
-                                                                 ...question2Ask,
-                                                                 format( providedValue: string ): string {
-                                                                     let value2Display: string = providedValue;
-                                                                     if ( question2Ask.choices ) {
-                                                                         value2Display = question2Ask.choices.find(
-                                                                             ( choice: Answer ) => choice.name === providedValue
-                                                                         )?.message;
-                                                                     }
+        const answer: Record<string, string | string[]> = await prompt( {
+                                                                            ...question2Ask,
+                                                                            format( providedValue: string | string[] ): string {
+                                                                                let value2Display = '';
 
-                                                                     return this.styles.primary( value2Display );
-                                                                 }
-                                                             } );
+                                                                                switch ( question2Ask.type ) {
+                                                                                    case 'input':
+                                                                                        value2Display = providedValue as string;
+                                                                                        break;
+                                                                                    case 'select':
+                                                                                        value2Display = question2Ask.choices.find(
+                                                                                            ( choice: Answer ) => choice.name === providedValue
+                                                                                        )?.message;
+                                                                                        break;
+                                                                                    case 'multiselect':
+                                                                                        value2Display = question2Ask.choices.filter(
+                                                                                            ( choice: Answer ) => providedValue.includes( choice.name )
+                                                                                        ).map( ( choice: Answer ) => choice.message ).join( ', ' );
+                                                                                        break;
+                                                                                }
+
+                                                                                return this.styles.primary( value2Display );
+                                                                            }
+                                                                        } );
 
         console.log( { answer } );
 
@@ -140,10 +151,12 @@ export abstract class ApolloAvatar {
         this.oracle.addAWish( answer );
         console.log( this.oracle.usersWishes );
         // Checking if the provided answer is a trigger for an avatar
-        // TODO: Make sure it works for multiselect prompts
-        const avatarClass: NewableAvatarClass = (this.triggers[answer[questionId]] as unknown) as NewableAvatarClass;
-        if ( avatarClass ) {
-            this.avatars2Trigger.push( avatarClass );
+        const answersIds: string[] = Array.isArray( answer[questionId] ) ? (answer[questionId] as string[]) : [ answer[questionId] as string ];
+        for ( const answerId of answersIds ) {
+            const avatarClass: NewableAvatarClass = (this.triggers[answerId] as unknown) as NewableAvatarClass;
+            if ( avatarClass ) {
+                this.avatars2Trigger.push( avatarClass );
+            }
         }
     }
 

@@ -10,9 +10,9 @@ export type AvatarImport = () => Promise<AvatarClass>;
 
 export const AVATARS_RELATIONSHIPS: Record<string, AvatarImport[]> = {
     Apollo: [
-        () => import('./apollo-for-project-creation').then( module => module.ApolloForProjectCreation )
+        () => import('./apollo-for-workspace-creation').then( module => module.ApolloForWorkspaceCreation )
     ],
-    ApolloForProjectCreation: [
+    ApolloForWorkspaceCreation: [
         () => import('./apollo-for-front-end-app').then( module => module.ApolloForFrontEndApp ),
         () => import('./apollo-for-back-end-app').then( module => module.ApolloForBackEndApp )
     ]

@@ -1,7 +1,7 @@
 /**
  * TypeScript entities and constants
  */
-export type Wishes = Record<string, string | boolean>;
+export type Wishes = Record<string, string | string[]>;
 
 export interface FulfillmentStep {
     command: string;

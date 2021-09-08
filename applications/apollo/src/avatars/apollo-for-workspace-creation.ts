@@ -11,39 +11,39 @@ import {
 /**
  * TypeScript entities and constants
  */
-export const PLUGGABLE_QUESTION = 'projectType';
+export const PLUGGABLE_QUESTION = 'workspaceComposition';
 
-export class ApolloForProjectCreation extends ApolloAvatar {
+export class ApolloForWorkspaceCreation extends ApolloAvatar {
     static readonly trigger: AvatarTrigger = {
         question: A_PLUGGABLE_QUESTION,
         answer: {
-            name: 'projectCreation',
-            message: 'Create a new project in a new workspace'
+            name: 'workspaceCreation',
+            message: 'Create a new workspace'
         }
     };
     protected questions: Record<string, Question> = {
         [PLUGGABLE_QUESTION]: {
-            type: 'select',
+            type: 'multiselect',
             name: PLUGGABLE_QUESTION,
-            message: 'What kind of project would you like to create ?',
+            message: 'What kind(s) of application would you like to add to your workspace ?',
             choices: []
         },
-        'projectName': {
+        'workspaceName': {
             type: 'input',
-            name: 'projectName',
-            message: 'How would you like to call your new project ?'
+            name: 'workspaceName',
+            message: 'How would you like to call your new workspace ?'
         }
     };
 
     async getSummoned(): Promise<void> {
-        console.log( 'ApolloForProjectCreation is being summoned !!!' );
+        console.log( 'ApolloForWorkspaceCreation is being summoned !!!' );
         await this.askThisQuestion( PLUGGABLE_QUESTION );
-        await this.askThisQuestion( 'projectName' );
+        await this.askThisQuestion( 'workspaceName' );
 
-        const projectName: string = this.oracle.usersWishes['projectName'] as string;
+        const workspaceName: string = this.oracle.usersWishes['workspaceName'] as string;
         const args: string[] = [
             'create-nx-workspace',
-            `--name="${projectName}"`,
+            `--name="${workspaceName}"`,
             `--preset="empty"`,
             `--nxCloud=false`
         ];
