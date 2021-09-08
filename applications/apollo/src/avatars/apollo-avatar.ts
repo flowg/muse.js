@@ -16,6 +16,10 @@ import {
     AVATARS_RELATIONSHIPS
 } from './avatars-relationships';
 import { Oracle } from '../oracle';
+import {
+    Observable,
+    Subject
+} from 'rxjs';
 
 /**
  * TypeScript entities and constants
@@ -51,23 +55,43 @@ export abstract class ApolloAvatar {
     private triggers: Record<string, AvatarClass> = {};
     private avatars2Trigger: NewableAvatarClass[] = [];
 
+    /*
+     * Events-related properties
+     */
+    private _initializationCompleted: Subject<void> = new Subject<void>();
+    get initializationCompleted(): Observable<void> {
+        return this._initializationCompleted.asObservable();
+    }
+    private _workCompleted: Subject<void> = new Subject<void>();
+    get workCompleted(): Observable<void> {
+        return this._workCompleted.asObservable();
+    }
+    private _triggerLinkedAvatar: Subject<void> = new Subject<void>();
+    get triggerLinkedAvatar(): Observable<void> {
+        return this._triggerLinkedAvatar.asObservable();
+    }
+    private _linkedAvatarsTriggered: Subject<void> = new Subject<void>();
+    get linkedAvatarsTriggered(): Observable<void> {
+        return this._linkedAvatarsTriggered.asObservable();
+    }
+
     constructor( protected oracle: Oracle ) {
         /*
          * TODO: Change the whole system to an event-driven one, based on Observables + Subjects.
          *  Proposed events:
-         *  - avatarsLinked
+         *  - initializationCompleted
          *  - workCompleted
-         *  - triggerNewAvatar
-         *  - allAvatarsTriggered
+         *  - triggerLinkedAvatar
+         *  - linkedAvatarsTriggered
          */
         console.log( 'Initializing ApolloAvatar for ' + this.constructor.name );
-        this.linkAvatars().then(async () => {
+        this.linkAvatars().then( async () => {
             console.log( 'AFTER linkAvatars() for ' + this.constructor.name + ', before getSummoned()' );
             await this.getSummoned();
             console.log( 'AFTER linkAvatars() for ' + this.constructor.name + ', before checkingAvatars2Trigger()' );
             await this.checkingAvatars2Trigger();
             console.log( 'AFTER linkAvatars() for ' + this.constructor.name + ', AFTER checkingAvatars2Trigger()' );
-        });
+        } );
         console.log( 'Inside ApolloAvatar constructor() for ' + this.constructor.name + ', AFTER linkAvatars(), without await' );
     }
 
@@ -175,5 +199,5 @@ export abstract class ApolloAvatar {
         }
     }
 
-    abstract getSummoned(): Promise<void>;
+    protected abstract getSummoned(): Promise<void>;
 }

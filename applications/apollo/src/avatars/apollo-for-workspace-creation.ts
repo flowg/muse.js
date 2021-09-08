@@ -35,7 +35,7 @@ export class ApolloForWorkspaceCreation extends ApolloAvatar {
         }
     };
 
-    async getSummoned(): Promise<void> {
+    protected async getSummoned(): Promise<void> {
         console.log( 'ApolloForWorkspaceCreation is being summoned !!!' );
         await this.askThisQuestion( PLUGGABLE_QUESTION );
         await this.askThisQuestion( 'workspaceName' );

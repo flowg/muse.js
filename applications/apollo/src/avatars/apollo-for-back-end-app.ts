@@ -39,7 +39,7 @@ export class ApolloForBackEndApp extends ApolloAvatar {
         }
     };
 
-    async getSummoned(): Promise<void> {
+    protected async getSummoned(): Promise<void> {
         console.log( 'ApolloForBackEndApp is being summoned !!! About to call fulfillUsersWishes()' );
         await this.askThisQuestion( 'backEndAppType' );
         await this.askThisQuestion( 'backEndAppName' );

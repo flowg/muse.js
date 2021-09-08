@@ -28,7 +28,7 @@ export class Apollo extends ApolloAvatar {
         console.log('Inside constructor() for Apollo, AFTER super()')
     }
 
-    async getSummoned(): Promise<void> {
+    protected async getSummoned(): Promise<void> {
         console.log('Inside getSummoned() for Apollo, before Hermes')
         this.hermes.introduceApollo();
 
