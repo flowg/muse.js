@@ -32,7 +32,7 @@
   "private": false,
   "dependencies": {},
   "devDependencies": {
-    "@nrwl/angular": "^12.7.1",
+    "@nrwl/angular": "^12.9.0",
     "@nrwl/cli": "12.7.1",
     "@nrwl/devkit": "12.7.1",
     "@nrwl/eslint-plugin-nx": "12.7.1",
