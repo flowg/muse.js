@@ -40,11 +40,7 @@ export class ApolloForBackEndApp extends ApolloAvatar {
     };
 
     protected async getSummoned(): Promise<void> {
-        console.log( 'ApolloForBackEndApp is being summoned !!! About to call fulfillUsersWishes()' );
         await this.askThisQuestion( 'backEndAppType' );
         await this.askThisQuestion( 'backEndAppName' );
-        // TODO: What happens if that avatar is not the last one ?
-        // this.fulfillUsersWishes();
-        console.log('LEAVING getSummoned')
     }
 }

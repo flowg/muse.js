@@ -36,7 +36,6 @@ export class ApolloForWorkspaceCreation extends ApolloAvatar {
     };
 
     protected async getSummoned(): Promise<void> {
-        console.log( 'ApolloForWorkspaceCreation is being summoned !!!' );
         await this.askThisQuestion( PLUGGABLE_QUESTION );
         await this.askThisQuestion( 'workspaceName' );
 
@@ -47,6 +46,11 @@ export class ApolloForWorkspaceCreation extends ApolloAvatar {
             `--preset="empty"`,
             `--nxCloud=false`
         ];
-        this.oracle.addAFulfillmentStep( { command: 'npx', args } );
+        this.oracle.addAFulfillmentStep(
+            () => this.executeCommand(
+                'npx',
+                args
+            )
+        );
     }
 }

@@ -23,16 +23,30 @@ export class Apollo extends ApolloAvatar {
         }
     };
 
-    constructor( private hermes: Hermes, protected oracle: Oracle ) {
-        super( oracle );
-        console.log('Inside constructor() for Apollo, AFTER super()')
+    constructor( protected hermes: Hermes, protected oracle: Oracle ) {
+        super(
+            hermes,
+            oracle
+        );
     }
 
     protected async getSummoned(): Promise<void> {
-        console.log('Inside getSummoned() for Apollo, before Hermes')
         this.hermes.introduceApollo();
 
         await this.askThisQuestion( PLUGGABLE_QUESTION );
-        console.log('Inside getSummoned() for Apollo, AFTER askThisQuestion()')
+
+        this.avatarDone
+            .subscribe( {
+                            next: () => {
+                                this.hermes.debug( 'All linked avatars are DONE for Apollo, so we begin actually doing stuff' );
+                                this.fulfillUsersWishes();
+                            }
+                        } );
+    }
+
+    private fulfillUsersWishes(): void {
+        for ( const fulfillmentStep of this.oracle.fulfillmentSteps ) {
+            fulfillmentStep();
+        }
     }
 }
