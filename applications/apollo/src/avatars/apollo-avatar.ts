@@ -47,6 +47,7 @@ export interface Question {
     name: string;
     type: string;
     message: string;
+    initial?: () => string | number | boolean;
     choices?: Answer[];
 }
 

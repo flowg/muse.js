@@ -23,19 +23,22 @@ export class ApolloForBackEndApp extends ApolloAvatar {
             message: 'What kind of Back-End application would you like to create ?',
             choices: [
                 {
-                    name: 'nest',
-                    message: 'A Nest application'
-                },
-                {
                     name: 'nestSls',
                     message: 'A Nest application, served via AWS Lambda'
+                },
+                {
+                    name: 'nest',
+                    message: 'A Nest application'
                 }
             ]
         },
         'backEndAppName': {
             type: 'input',
             name: 'backEndAppName',
-            message: 'How would you like to call your new Back-End app ?'
+            message: 'How would you like to call your new Back-End app ?',
+            initial: () => {
+                return this.oracle.usersWishes['workspaceName'] + '-api';
+            }
         }
     };
 

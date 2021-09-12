@@ -23,19 +23,22 @@ export class ApolloForFrontEndApp extends ApolloAvatar {
             message: 'What kind of Front-End application would you like to create ?',
             choices: [
                 {
-                    name: 'angular',
-                    message: 'An Angular application'
-                },
-                {
                     name: 'angularSls',
                     message: 'An Angular application, served via AWS Lambda'
+                },
+                {
+                    name: 'angular',
+                    message: 'An Angular application'
                 }
             ]
         },
         'frontEndAppName': {
             type: 'input',
             name: 'frontEndAppName',
-            message: 'How would you like to call your new Front-End app ?'
+            message: 'How would you like to call your new Front-End app ?',
+            initial: () => {
+                return this.oracle.usersWishes['workspaceName'] + '-web';
+            }
         }
     };
 
