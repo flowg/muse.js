@@ -304,11 +304,11 @@ export abstract class ApolloAvatar {
         }
     }
 
-    protected executeCommand( command: string, args: string[] ): void {
+    protected executeCommand( command: string, args: string[], cwd: string = undefined ): void {
         const childProcess = spawnSync(
             command,
             args,
-            { stdio: 'inherit' }
+            { stdio: 'inherit', cwd }
         );
 
         if ( childProcess.error ) {
