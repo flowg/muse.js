@@ -288,6 +288,13 @@ export abstract class ApolloAvatar {
                                                                                 }
 
                                                                                 return this.styles.primary( value2Display );
+                                                                            },
+                                                                            validate( providedValue: string | string[] ): boolean | string {
+                                                                                if ( Array.isArray( providedValue ) && !providedValue.length ) {
+                                                                                    return 'Please choose at least one option by hitting SPACE';
+                                                                                }
+
+                                                                                return !!providedValue;
                                                                             }
                                                                         } );
 
