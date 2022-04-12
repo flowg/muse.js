@@ -41,7 +41,7 @@ export class ApolloForWorkspaceCreation extends ApolloAvatar {
 
         const workspaceName: string = this.oracle.usersWishes['workspaceName'] as string;
         const args: string[] = [
-            'create-nx-workspace',
+            'create-nx-workspace@latest',
             `--name="${workspaceName}"`,
             `--preset="empty"`,
             `--nxCloud=false`
