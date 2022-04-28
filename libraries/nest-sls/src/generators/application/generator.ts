@@ -43,7 +43,7 @@ function generateNewTargets(normalizedOptions: NormalizedSchema<NestSlsAppGenera
             options: {
                 commands: [
                     'cp -RL ../../node_modules .',
-                    'sls deploy',
+                    'sls deploy --verbose',
                     'rm -R node_modules'
                 ],
                 cwd: normalizedOptions.projectRoot,
@@ -95,7 +95,8 @@ export default async function (host: Tree, options: NestSlsAppGeneratorSchema): 
             return {
                 ...json,
                 compilerOptions: {
-                    esModuleInterop: true
+                    esModuleInterop: true,
+                    module: "commonjs"
                 }
             };
         }

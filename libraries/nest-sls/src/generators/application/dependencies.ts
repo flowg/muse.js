@@ -1,15 +1,16 @@
 export const DEPENDENCIES: Record<string, string> = {
-    "@nestjs/platform-fastify": "^7.0.0",
-    "@vendia/serverless-express": "^4.3.0",
-    "aws-lambda": "^1.0.6",
-    "aws-lambda-fastify": "^1.4.4",
+    "@nestjs/platform-fastify": "^8.4.4",
+    "@vendia/serverless-express": "^4.8.0",
+    "aws-lambda": "^1.0.7",
+    "aws-lambda-fastify": "^2.1.2",
 };
 
 export const DEV_DEPENDENCIES: Record<string, string> = {
-    "@types/aws-lambda": "^8.10.72",
-    "@types/express": "^4.17.8",
-    "serverless": "^2.23.0",
-    "serverless-offline": "^6.8.0",
-    "serverless-plugin-optimize": "^4.1.4-rc.1",
-    "serverless-plugin-typescript": "^1.1.9",
+    "@types/aws-lambda": "^8.10.95",
+    "@types/express": "^4.17.13",
+    "@types/serverless": "^3.12.2",
+    "serverless": "^3.15.2",
+    "serverless-offline": "^8.7.0",
+    "serverless-plugin-optimize": "^4.2.1-rc.1",
+    "serverless-plugin-typescript": "^2.1.2",
 };

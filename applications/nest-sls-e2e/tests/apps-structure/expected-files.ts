@@ -2,7 +2,7 @@ export const ROOT_FILES: string[] = [
     'tsconfig.spec.json',
     'tsconfig.json',
     'tsconfig.app.json',
-    'serverless.yml',
+    'serverless.ts',
     'jest.config.js',
     '.eslintrc.json'
 ];
