@@ -14,6 +14,14 @@
     ".eslintrc.json": "*",
     "nx.json": "*"
   },
+  "targetDependencies": {
+    "build": [
+      {
+        "target": "build",
+        "projects": "dependencies"
+      }
+    ]
+  },
   "tasksRunnerOptions": {
     "default": {
       "runner": "@nrwl/workspace/tasks-runners/default",
@@ -22,34 +30,9 @@
       }
     }
   },
-  "projects": {
-    "mneme": {
-      "tags": []
-    },
-    "nativescript": {
-      "tags": []
-    },
-    "nativescript-e2e": {
-      "tags": [],
-      "implicitDependencies": ["nativescript"]
-    },
-    "nest-sls": {
-      "tags": []
-    },
-    "nest-sls-e2e": {
-      "tags": [],
-      "implicitDependencies": ["nest-sls"]
-    },
-    "ng-sls": {
-      "tags": []
-    },
-    "ng-sls-e2e": {
-      "tags": [],
-      "implicitDependencies": ["ng-sls"]
-    }
-  },
+  "projects": {},
   "workspaceLayout": {
-    "appsDir": "e2e",
-    "libsDir": "packages"
+    "appsDir": "applications",
+    "libsDir": "libraries"
   }
 }

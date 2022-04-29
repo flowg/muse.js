@@ -1,0 +1,75 @@
+{
+  "root": "libraries/nativescript",
+  "sourceRoot": "libraries/nativescript/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libraries/nativescript/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libraries/nativescript"],
+      "options": {
+        "jestConfig": "libraries/nativescript/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "build": {
+      "executor": "@nrwl/node:package",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libraries/nativescript",
+        "tsConfig": "libraries/nativescript/tsconfig.lib.json",
+        "packageJson": "libraries/nativescript/package.json",
+        "main": "libraries/nativescript/src/index.ts",
+        "assets": [
+          "libraries/nativescript/*.md",
+          {
+            "input": "./libraries/nativescript/src",
+            "glob": "**/*.!(ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./libraries/nativescript",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "./libraries/nativescript",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
+      },
+      "configurations": {
+        "e2e": {
+          "updateBuildableProjectDepsInPackageJson": false
+        }
+      }
+    },
+    "build-e2e": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          "nx run nativescript:build:e2e",
+          "mkdir -p dist/node_modules/@muse.js",
+          "cp -R dist/libraries/ dist/node_modules/@muse.js"
+        ],
+        "parallel": false
+      }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          "nx run nativescript:build",
+          "npm publish dist/libraries/nativescript"
+        ],
+        "parallel": false
+      }
+    }
+  }
+}

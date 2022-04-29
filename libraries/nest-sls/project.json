@@ -1,0 +1,75 @@
+{
+  "root": "libraries/nest-sls",
+  "sourceRoot": "libraries/nest-sls/src",
+  "projectType": "library",
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["libraries/nest-sls/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libraries/nest-sls"],
+      "options": {
+        "jestConfig": "libraries/nest-sls/jest.config.js",
+        "passWithNoTests": true
+      }
+    },
+    "build": {
+      "executor": "@nrwl/node:package",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/libraries/nest-sls",
+        "tsConfig": "libraries/nest-sls/tsconfig.lib.json",
+        "packageJson": "libraries/nest-sls/package.json",
+        "main": "libraries/nest-sls/src/index.ts",
+        "assets": [
+          "libraries/nest-sls/*.md",
+          {
+            "input": "./libraries/nest-sls/src",
+            "glob": "**/*.!(ts)",
+            "output": "./src"
+          },
+          {
+            "input": "./libraries/nest-sls",
+            "glob": "generators.json",
+            "output": "."
+          },
+          {
+            "input": "./libraries/nest-sls",
+            "glob": "executors.json",
+            "output": "."
+          }
+        ]
+      },
+      "configurations": {
+        "e2e": {
+          "updateBuildableProjectDepsInPackageJson": false
+        }
+      }
+    },
+    "build-e2e": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          "nx run nest-sls:build:e2e",
+          "mkdir -p dist/node_modules/@muse.js",
+          "cp -R dist/libraries/ dist/node_modules/@muse.js"
+        ],
+        "parallel": false
+      }
+    },
+    "publish": {
+      "executor": "@nrwl/workspace:run-commands",
+      "options": {
+        "commands": [
+          "nx run nest-sls:build",
+          "npm publish dist/libraries/nest-sls"
+        ],
+        "parallel": false
+      }
+    }
+  }
+}

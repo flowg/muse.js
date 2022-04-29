@@ -1,0 +1,41 @@
+/**
+ * 3rd-party imports
+ */
+import type { Serverless } from 'serverless/aws';
+
+const serverlessConfiguration: Serverless = {
+    provider: {
+        name: 'aws',
+        runtime: 'nodejs14.x'
+    },
+    service: '<%= name %>',
+    functions: {
+        main: {
+            handler: 'src/lambda.handler',
+            events: [
+                {
+                    http: {
+                        method: 'ANY',
+                        path: '/'
+                    }
+                },
+                {
+                    http: {
+                        method: 'ANY',
+                        path: '{proxy+}'
+                    }
+                }
+            ],
+        }
+    },
+    plugins: [
+        'serverless-plugin-typescript', // Use this to be able to use directly TS files with sls deploy
+        'serverless-plugin-optimize', // Use this to CONSIDERABLY decrease the size of the package sent to AWS ( like 16 times less... )
+        'serverless-offline'
+    ],
+    package: {
+        individually: true
+    }
+};
+
+module.exports = serverlessConfiguration;

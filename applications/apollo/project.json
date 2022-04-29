@@ -1,0 +1,59 @@
+{
+  "root": "applications/apollo",
+  "sourceRoot": "applications/apollo/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nrwl/node:build",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/applications/apollo",
+        "main": "applications/apollo/src/main.ts",
+        "tsConfig": "applications/apollo/tsconfig.app.json",
+        "generatePackageJson": true,
+        "assets": [
+          "applications/apollo/src/assets",
+          {
+            "input": "./applications/apollo/src",
+            "glob": "bin.js",
+            "output": "."
+          }
+        ]
+      },
+      "configurations": {
+        "production": {
+          "optimization": true,
+          "extractLicenses": true,
+          "inspect": false,
+          "fileReplacements": [
+            {
+              "replace": "applications/apollo/src/environments/environment.ts",
+              "with": "applications/apollo/src/environments/environment.prod.ts"
+            }
+          ]
+        }
+      }
+    },
+    "serve": {
+      "executor": "@nrwl/node:execute",
+      "options": {
+        "buildTarget": "apollo:build"
+      }
+    },
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "options": {
+        "lintFilePatterns": ["applications/apollo/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/applications/apollo"],
+      "options": {
+        "jestConfig": "applications/apollo/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  },
+  "tags": []
+}

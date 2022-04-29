@@ -1,0 +1,15 @@
+{
+  "projectType": "application",
+  "root": "applications/ng-sls-e2e",
+  "sourceRoot": "applications/ng-sls-e2e/src",
+  "targets": {
+    "e2e": {
+      "executor": "@nrwl/nx-plugin:e2e",
+      "options": {
+        "target": "ng-sls:build-e2e",
+        "jestConfig": "applications/ng-sls-e2e/jest.config.js"
+      }
+    }
+  },
+  "implicitDependencies": ["ng-sls"]
+}

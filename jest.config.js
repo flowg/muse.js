@@ -1,11 +1,12 @@
 module.exports = {
   projects: [
-    '<rootDir>/packages/nativescript',
-    '<rootDir>/e2e/nativescript-e2e',
-    '<rootDir>/packages/nest-sls',
-    '<rootDir>/e2e/nest-sls-e2e',
-    '<rootDir>/packages/mneme',
-    '<rootDir>/packages/ng-sls',
-    '<rootDir>/e2e/ng-sls-e2e'
+    '<rootDir>/libraries/nativescript',
+    '<rootDir>/applications/nativescript-e2e',
+    '<rootDir>/libraries/nest-sls',
+    '<rootDir>/applications/nest-sls-e2e',
+    '<rootDir>/libraries/mneme',
+    '<rootDir>/libraries/ng-sls',
+    '<rootDir>/applications/ng-sls-e2e',
+    '<rootDir>/applications/apollo'
   ],
 };
