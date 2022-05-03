@@ -5,7 +5,9 @@
   "targets": {
     "build": {
       "executor": "@nrwl/node:webpack",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/applications/apollo",
         "main": "applications/apollo/src/main.ts",
@@ -43,13 +45,19 @@
     "lint": {
       "executor": "@nrwl/linter:eslint",
       "options": {
-        "lintFilePatterns": ["applications/apollo/**/*.ts"]
+        "lintFilePatterns": [
+          "applications/apollo/**/*.ts"
+        ]
       },
-      "outputs": ["{options.outputFile}"]
+      "outputs": [
+        "{options.outputFile}"
+      ]
     },
     "test": {
       "executor": "@nrwl/jest:jest",
-      "outputs": ["coverage/applications/apollo"],
+      "outputs": [
+        "coverage/applications/apollo"
+      ],
       "options": {
         "jestConfig": "applications/apollo/jest.config.ts",
         "passWithNoTests": true

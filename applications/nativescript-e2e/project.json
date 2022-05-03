@@ -7,9 +7,11 @@
       "executor": "@nrwl/nx-plugin:e2e",
       "options": {
         "target": "nativescript:build-e2e",
-        "jestConfig": "applications/nativescript-e2e/jest.config.js"
+        "jestConfig": "applications/nativescript-e2e/jest.config.ts"
       }
     }
   },
-  "implicitDependencies": ["nativescript"]
+  "implicitDependencies": [
+    "nativescript"
+  ]
 }

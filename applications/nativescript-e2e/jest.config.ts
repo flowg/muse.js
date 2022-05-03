@@ -1,16 +1,17 @@
 module.exports = {
-    displayName: 'apollo',
+    displayName: 'nativescript-e2e',
 
     globals: {
         'ts-jest': {
-            tsconfig: '<rootDir>/tsconfig.spec.json',
+            tsConfig: '<rootDir>/tsconfig.spec.json',
         },
     },
-    testEnvironment: 'node',
     transform: {
         '^.+\\.[tj]s$': 'ts-jest',
     },
     moduleFileExtensions: [ 'ts', 'js', 'html' ],
-    coverageDirectory: '../../coverage/applications/apollo',
+    coverageDirectory: '../../coverage/applications/nativescript-e2e',
+    testTimeout: 10 * 60 * 1000,
+    useStderr: true,
     preset: '../../jest.preset.ts',
 };
