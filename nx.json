@@ -34,5 +34,8 @@
   "workspaceLayout": {
     "appsDir": "applications",
     "libsDir": "libraries"
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/workspace"
   }
 }

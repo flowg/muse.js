@@ -9,8 +9,5 @@
     "nest-sls-e2e": "applications/nest-sls-e2e",
     "ng-sls": "libraries/ng-sls",
     "ng-sls-e2e": "applications/ng-sls-e2e"
-  },
-  "cli": {
-    "defaultCollection": "@nrwl/workspace"
   }
 }
