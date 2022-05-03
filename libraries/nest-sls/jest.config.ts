@@ -1,14 +1,15 @@
 module.exports = {
-  displayName: 'mneme',
-  preset: '../../jest.preset.js',
+  displayName: 'nest-sls',
+
   globals: {
     'ts-jest': {
-      tsconfig: '<rootDir>/tsconfig.spec.json',
+      tsConfig: '<rootDir>/tsconfig.spec.json',
     },
   },
   transform: {
     '^.+\\.[tj]sx?$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../coverage/libraries/mneme',
+  coverageDirectory: '../../coverage/libraries/nest-sls',
+  preset: '../../jest.preset.ts',
 };

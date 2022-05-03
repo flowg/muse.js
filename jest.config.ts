@@ -7,6 +7,6 @@ module.exports = {
     '<rootDir>/libraries/mneme',
     '<rootDir>/libraries/ng-sls',
     '<rootDir>/applications/ng-sls-e2e',
-    '<rootDir>/applications/apollo'
+    '<rootDir>/applications/apollo',
   ],
 };

@@ -51,7 +51,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/applications/apollo"],
       "options": {
-        "jestConfig": "applications/apollo/jest.config.js",
+        "jestConfig": "applications/apollo/jest.config.ts",
         "passWithNoTests": true
       }
     }

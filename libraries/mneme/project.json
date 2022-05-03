@@ -25,7 +25,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libraries/mneme"],
       "options": {
-        "jestConfig": "libraries/mneme/jest.config.js",
+        "jestConfig": "libraries/mneme/jest.config.ts",
         "passWithNoTests": true
       }
     },

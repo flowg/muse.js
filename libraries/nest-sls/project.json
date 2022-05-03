@@ -14,7 +14,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libraries/nest-sls"],
       "options": {
-        "jestConfig": "libraries/nest-sls/jest.config.js",
+        "jestConfig": "libraries/nest-sls/jest.config.ts",
         "passWithNoTests": true
       }
     },

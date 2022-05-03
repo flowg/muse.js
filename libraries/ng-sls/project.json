@@ -14,7 +14,7 @@
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libraries/ng-sls"],
       "options": {
-        "jestConfig": "libraries/ng-sls/jest.config.js",
+        "jestConfig": "libraries/ng-sls/jest.config.ts",
         "passWithNoTests": true
       }
     },
