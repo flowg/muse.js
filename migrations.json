@@ -1,12 +1,20 @@
 {
   "migrations": [
     {
-      "version": "13.10.0-beta.0",
-      "description": "Update the tasks runner property to import it from the nx package instead of @nrwl/worksapce",
+      "version": "13.1.2-beta.0",
       "cli": "nx",
-      "implementation": "./src/migrations/update-13-10-0/update-tasks-runner",
-      "package": "@nrwl/workspace",
-      "name": "13-10-0-update-tasks-runner"
+      "description": "Support .test. file names in tsconfigs",
+      "factory": "./src/migrations/update-13-1-2/update-tsconfigs-for-tests",
+      "package": "@nrwl/jest",
+      "name": "update-ts-config-for-test-filenames"
+    },
+    {
+      "version": "13.4.4-beta.0",
+      "cli": "nx",
+      "description": "Create a root babel config file if it doesn't exist and using babel-jest in jest.config.js and add @nrwl/web as needed",
+      "factory": "./src/migrations/update-13-4-4/add-missing-root-babel-config",
+      "package": "@nrwl/jest",
+      "name": "add-missing-root-babel-config"
     }
   ]
 }
