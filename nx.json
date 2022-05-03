@@ -30,7 +30,6 @@
       }
     }
   },
-  "projects": {},
   "workspaceLayout": {
     "appsDir": "applications",
     "libsDir": "libraries"
