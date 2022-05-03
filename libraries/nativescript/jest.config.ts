@@ -1,15 +1,15 @@
 module.exports = {
-  displayName: 'nativescript',
+    displayName: 'nativescript',
 
-  globals: {
-    'ts-jest': {
-      tsConfig: '<rootDir>/tsconfig.spec.json',
+    globals: {
+        'ts-jest': {
+            tsConfig: '<rootDir>/tsconfig.spec.json',
+        },
     },
-  },
-  transform: {
-    '^.+\\.[tj]sx?$': 'ts-jest',
-  },
-  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
-  coverageDirectory: '../../coverage/libraries/nativescript',
-  preset: '../../jest.preset.ts',
+    transform: {
+        '^.+\\.[tj]sx?$': 'ts-jest',
+    },
+    moduleFileExtensions: [ 'ts', 'tsx', 'js', 'jsx' ],
+    coverageDirectory: '../../coverage/libraries/nativescript',
+    preset: '../../jest.preset.ts',
 };

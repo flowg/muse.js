@@ -88,8 +88,8 @@ export function getTestForTagsOption(pluginName: string, generatorName: string):
         it('should add tags to nx.json', async () => {
             const tags: string[] = ['e2etag', 'e2ePackage'];
             const appName: string = await runGeneratorForPlugin(pluginName, generatorName, `--tags ${tags.join(',')}`);
-            const nxJson: any = readJson('nx.json');
-            expect(nxJson.projects[appName].tags).toEqual(['e2etag', 'e2ePackage']);
+            const projectJson: any = readJson(`apps/${appName}/project.json`);
+            expect(projectJson.tags).toEqual(['e2etag', 'e2ePackage']);
         });
     });
 }

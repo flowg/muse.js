@@ -17,6 +17,10 @@ import { Stats } from 'fs';
  */
 import * as ejs from 'ejs';
 import * as glob from 'glob';
+import {
+    MinimalSchema,
+    NormalizedSchema
+} from './schemas';
 
 /**
  * Generates a folder of files based on provided templates.
@@ -50,11 +54,11 @@ import * as glob from 'glob';
  * `tmpl: ''` is a common pattern. With it you can name files like this: `index.ts__tmpl__`, so your editor
  * doesn't get confused about incorrect TypeScript files.
  */
-export function generateFiles(
+export function generateFiles<T extends MinimalSchema>(
     host: Tree,
     srcFolder: string,
     target: string,
-    substitutions: { [k: string]: string | string[] },
+    substitutions: NormalizedSchema<T>,
     ejsIgnore = '**/*.png'
 ): void {
     // Searching for files that shouldn't be rendered through ejs
@@ -88,9 +92,9 @@ export function generateFiles(
     });
 }
 
-function replaceSegmentsInPath(
+function replaceSegmentsInPath<T extends MinimalSchema>(
     filePath: string,
-    substitutions: { [k: string]: string | string[] }
+    substitutions: NormalizedSchema<T>
 ): string {
     Object.entries(substitutions).forEach(([t, r]: [string, string | string[]]) => {
         if (typeof r === 'string') {

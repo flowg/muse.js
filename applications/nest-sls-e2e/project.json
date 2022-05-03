@@ -7,9 +7,11 @@
       "executor": "@nrwl/nx-plugin:e2e",
       "options": {
         "target": "nest-sls:build-e2e",
-        "jestConfig": "applications/nest-sls-e2e/jest.config.js"
+        "jestConfig": "applications/nest-sls-e2e/jest.config.ts"
       }
     }
   },
-  "implicitDependencies": ["nest-sls"]
+  "implicitDependencies": [
+    "nest-sls"
+  ]
 }
