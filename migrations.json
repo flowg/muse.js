@@ -1,20 +1,12 @@
 {
   "migrations": [
     {
-      "version": "13.2.0",
-      "description": "Set --parallel=1 for existing repos to preserve the existing behavior",
+      "version": "13.6.0-beta.0",
+      "description": "Remove old options that are no longer used",
       "cli": "nx",
-      "implementation": "./src/migrations/update-13-2-0/set-parallel-default",
+      "implementation": "./src/migrations/update-13-6-0/remove-old-task-runner-options",
       "package": "@nrwl/workspace",
-      "name": "set-parallel-default"
-    },
-    {
-      "version": "13.3.0-beta.0",
-      "description": "@nrwl/workspace:tsc is now @nrwl/js:tsc",
-      "cli": "nx",
-      "implementation": "./src/migrations/update-13-3-0/update-tsc-executor-location",
-      "package": "@nrwl/workspace",
-      "name": "13-3-0-tsc-location"
+      "name": "13-6-0-remove-old-task-runner-options"
     }
   ]
 }
