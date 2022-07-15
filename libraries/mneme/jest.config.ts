@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     displayName: 'mneme',
 
     globals: {
@@ -11,5 +11,5 @@ module.exports = {
     },
     moduleFileExtensions: [ 'ts', 'tsx', 'js', 'jsx' ],
     coverageDirectory: '../../coverage/libraries/mneme',
-    preset: '../../jest.preset.ts',
+    preset: '../../jest.preset.js',
 };

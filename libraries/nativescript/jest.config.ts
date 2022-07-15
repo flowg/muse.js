@@ -1,4 +1,4 @@
-module.exports = {
+export default {
     displayName: 'nativescript',
 
     globals: {
@@ -11,5 +11,5 @@ module.exports = {
     },
     moduleFileExtensions: [ 'ts', 'tsx', 'js', 'jsx' ],
     coverageDirectory: '../../coverage/libraries/nativescript',
-    preset: '../../jest.preset.ts',
+    preset: '../../jest.preset.js',
 };

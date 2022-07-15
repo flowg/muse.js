@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   projects: [
     '<rootDir>/libraries/nativescript',
     '<rootDir>/applications/nativescript-e2e',
