@@ -1,5 +1,4 @@
 {
-  "root": "libraries/ng-sls",
   "sourceRoot": "libraries/ng-sls/src",
   "projectType": "library",
   "targets": {

@@ -1,5 +1,4 @@
 {
-  "root": "libraries/mneme",
   "sourceRoot": "libraries/mneme",
   "projectType": "library",
   "targets": {

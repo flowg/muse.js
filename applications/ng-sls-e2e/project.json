@@ -1,6 +1,5 @@
 {
   "projectType": "application",
-  "root": "applications/ng-sls-e2e",
   "sourceRoot": "applications/ng-sls-e2e/src",
   "targets": {
     "e2e": {
@@ -11,7 +10,5 @@
       }
     }
   },
-  "implicitDependencies": [
-    "ng-sls"
-  ]
+  "implicitDependencies": ["ng-sls"]
 }

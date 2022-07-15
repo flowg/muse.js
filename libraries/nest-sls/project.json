@@ -1,5 +1,4 @@
 {
-  "root": "libraries/nest-sls",
   "sourceRoot": "libraries/nest-sls/src",
   "projectType": "library",
   "targets": {

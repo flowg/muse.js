@@ -1,6 +1,5 @@
 {
   "projectType": "application",
-  "root": "applications/nest-sls-e2e",
   "sourceRoot": "applications/nest-sls-e2e/src",
   "targets": {
     "e2e": {
@@ -11,7 +10,5 @@
       }
     }
   },
-  "implicitDependencies": [
-    "nest-sls"
-  ]
+  "implicitDependencies": ["nest-sls"]
 }

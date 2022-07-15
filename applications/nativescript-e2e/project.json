@@ -1,6 +1,5 @@
 {
   "projectType": "application",
-  "root": "applications/nativescript-e2e",
   "sourceRoot": "applications/nativescript-e2e/src",
   "targets": {
     "e2e": {
@@ -11,7 +10,5 @@
       }
     }
   },
-  "implicitDependencies": [
-    "nativescript"
-  ]
+  "implicitDependencies": ["nativescript"]
 }

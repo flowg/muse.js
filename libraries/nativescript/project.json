@@ -1,5 +1,4 @@
 {
-  "root": "libraries/nativescript",
   "sourceRoot": "libraries/nativescript/src",
   "projectType": "library",
   "targets": {
