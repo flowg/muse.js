@@ -26,12 +26,7 @@
     "default": {
       "runner": "@nrwl/workspace/tasks-runners/default",
       "options": {
-        "cacheableOperations": [
-          "build",
-          "lint",
-          "test",
-          "e2e"
-        ],
+        "cacheableOperations": ["build", "lint", "test", "e2e"],
         "parallel": 1
       }
     }
@@ -42,5 +37,6 @@
   },
   "cli": {
     "defaultCollection": "@nrwl/workspace"
-  }
+  },
+  "$schema": "./node_modules/nx/schemas/nx-schema.json"
 }
