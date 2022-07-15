@@ -35,8 +35,5 @@
     "appsDir": "applications",
     "libsDir": "libraries"
   },
-  "cli": {
-    "defaultCollection": "@nrwl/workspace"
-  },
   "$schema": "./node_modules/nx/schemas/nx-schema.json"
 }
