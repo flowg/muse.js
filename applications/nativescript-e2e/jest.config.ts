@@ -13,5 +13,5 @@ module.exports = {
     coverageDirectory: '../../coverage/applications/nativescript-e2e',
     testTimeout: 10 * 60 * 1000,
     useStderr: true,
-    preset: '../../jest.preset.ts',
+    preset: '../../jest.preset.js',
 };

@@ -12,5 +12,5 @@ module.exports = {
     moduleFileExtensions: [ 'ts', 'js', 'html' ],
     coverageDirectory: '../../coverage/applications/nest-sls-e2e',
     testTimeout: 10 * 60 * 1000,
-    preset: '../../jest.preset.ts',
+    preset: '../../jest.preset.js',
 };
