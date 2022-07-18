@@ -1,5 +1,5 @@
 {
-  "root": "libraries/ng-sls",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libraries/ng-sls/src",
   "projectType": "library",
   "targets": {
@@ -7,18 +7,19 @@
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": ["libraries/ng-sls/**/*.ts"]
-      }
+      },
+      "outputs": ["{options.outputFile}"]
     },
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libraries/ng-sls"],
       "options": {
-        "jestConfig": "libraries/ng-sls/jest.config.js",
+        "jestConfig": "libraries/ng-sls/jest.config.ts",
         "passWithNoTests": true
       }
     },
     "build": {
-      "executor": "@nrwl/node:package",
+      "executor": "@nrwl/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libraries/ng-sls",

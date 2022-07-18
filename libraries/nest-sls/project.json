@@ -1,5 +1,5 @@
 {
-  "root": "libraries/nest-sls",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libraries/nest-sls/src",
   "projectType": "library",
   "targets": {
@@ -7,18 +7,19 @@
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": ["libraries/nest-sls/**/*.ts"]
-      }
+      },
+      "outputs": ["{options.outputFile}"]
     },
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libraries/nest-sls"],
       "options": {
-        "jestConfig": "libraries/nest-sls/jest.config.js",
+        "jestConfig": "libraries/nest-sls/jest.config.ts",
         "passWithNoTests": true
       }
     },
     "build": {
-      "executor": "@nrwl/node:package",
+      "executor": "@nrwl/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libraries/nest-sls",

@@ -1,6 +1,6 @@
-module.exports = {
+export default {
     displayName: 'nativescript',
-    preset: '../../jest.preset.js',
+
     globals: {
         'ts-jest': {
             tsConfig: '<rootDir>/tsconfig.spec.json',
@@ -9,6 +9,7 @@ module.exports = {
     transform: {
         '^.+\\.[tj]sx?$': 'ts-jest',
     },
-    moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx'],
+    moduleFileExtensions: [ 'ts', 'tsx', 'js', 'jsx' ],
     coverageDirectory: '../../coverage/libraries/nativescript',
+    preset: '../../jest.preset.js',
 };

@@ -10,7 +10,5 @@
     "ng-sls": "libraries/ng-sls",
     "ng-sls-e2e": "applications/ng-sls-e2e"
   },
-  "cli": {
-    "defaultCollection": "@nrwl/workspace"
-  }
+  "$schema": "./node_modules/nx/schemas/workspace-schema.json"
 }

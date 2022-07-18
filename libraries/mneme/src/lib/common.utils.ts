@@ -4,7 +4,6 @@
 import {
     getWorkspaceLayout,
     names,
-    NxJsonProjectConfiguration,
     offsetFromRoot,
     ProjectConfiguration,
     readProjectConfiguration,
@@ -52,7 +51,7 @@ export function addTargets2ProjectConfiguration<T extends MinimalSchema>(
     normalizedOptions: NormalizedSchema<T>,
     newTargets: Record<string, TargetConfiguration>
 ): void {
-    const project: ProjectConfiguration & NxJsonProjectConfiguration = readProjectConfiguration(
+    const project: ProjectConfiguration = readProjectConfiguration(
         host, normalizedOptions.projectName);
     project.targets = {
         ...project.targets,
@@ -66,7 +65,7 @@ export function addFiles<T extends MinimalSchema>(
     options: NormalizedSchema<T>,
     templatesFolder: string
 ): void {
-    const templateOptions: Record<string, any> = {
+    const templateOptions: NormalizedSchema<T> = {
         ...options,
         ...names(options.name),
         offsetFromRoot: offsetFromRoot(options.projectRoot),

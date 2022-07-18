@@ -1,10 +1,10 @@
 {
-  "root": "applications/apollo",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "applications/apollo/src",
   "projectType": "application",
   "targets": {
     "build": {
-      "executor": "@nrwl/node:build",
+      "executor": "@nrwl/node:webpack",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/applications/apollo",
@@ -35,7 +35,7 @@
       }
     },
     "serve": {
-      "executor": "@nrwl/node:execute",
+      "executor": "@nrwl/node:node",
       "options": {
         "buildTarget": "apollo:build"
       }
@@ -44,13 +44,14 @@
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": ["applications/apollo/**/*.ts"]
-      }
+      },
+      "outputs": ["{options.outputFile}"]
     },
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/applications/apollo"],
       "options": {
-        "jestConfig": "applications/apollo/jest.config.js",
+        "jestConfig": "applications/apollo/jest.config.ts",
         "passWithNoTests": true
       }
     }

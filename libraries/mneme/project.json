@@ -1,10 +1,10 @@
 {
-  "root": "libraries/mneme",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "sourceRoot": "libraries/mneme",
   "projectType": "library",
   "targets": {
     "build": {
-      "executor": "@nrwl/node:package",
+      "executor": "@nrwl/js:tsc",
       "outputs": ["{options.outputPath}"],
       "options": {
         "outputPath": "dist/libraries/mneme",
@@ -18,13 +18,14 @@
       "executor": "@nrwl/linter:eslint",
       "options": {
         "lintFilePatterns": ["libraries/mneme/**/*.ts"]
-      }
+      },
+      "outputs": ["{options.outputFile}"]
     },
     "test": {
       "executor": "@nrwl/jest:jest",
       "outputs": ["coverage/libraries/mneme"],
       "options": {
-        "jestConfig": "libraries/mneme/jest.config.js",
+        "jestConfig": "libraries/mneme/jest.config.ts",
         "passWithNoTests": true
       }
     },

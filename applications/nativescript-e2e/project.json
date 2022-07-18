@@ -1,13 +1,13 @@
 {
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
-  "root": "applications/nativescript-e2e",
   "sourceRoot": "applications/nativescript-e2e/src",
   "targets": {
     "e2e": {
       "executor": "@nrwl/nx-plugin:e2e",
       "options": {
         "target": "nativescript:build-e2e",
-        "jestConfig": "applications/nativescript-e2e/jest.config.js"
+        "jestConfig": "applications/nativescript-e2e/jest.config.ts"
       }
     }
   },

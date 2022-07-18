@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   projects: [
     '<rootDir>/libraries/nativescript',
     '<rootDir>/applications/nativescript-e2e',
@@ -7,6 +7,6 @@ module.exports = {
     '<rootDir>/libraries/mneme',
     '<rootDir>/libraries/ng-sls',
     '<rootDir>/applications/ng-sls-e2e',
-    '<rootDir>/applications/apollo'
+    '<rootDir>/applications/apollo',
   ],
 };
