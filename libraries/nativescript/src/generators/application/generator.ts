@@ -11,7 +11,6 @@ import {
     addProjectConfiguration,
     formatFiles,
     GeneratorCallback,
-    NxJsonProjectConfiguration,
     ProjectConfiguration,
     Tree
 } from '@nrwl/devkit';
@@ -34,7 +33,7 @@ import {
     DEV_DEPENDENCIES
 } from './dependencies';
 
-function generateProjectConfiguration(normalizedOptions: NormalizedSchema<NativeScriptAppGeneratorSchema>): ProjectConfiguration & NxJsonProjectConfiguration {
+function generateProjectConfiguration(normalizedOptions: NormalizedSchema<NativeScriptAppGeneratorSchema>): ProjectConfiguration {
     return {
         root: normalizedOptions.projectRoot,
         projectType: 'application',
