@@ -7,13 +7,13 @@ import * as path from 'path';
  * Nx imports
  */
 import {
+    addDependenciesToPackageJson,
     formatFiles,
     GeneratorCallback,
-    installPackagesTask,
     TargetConfiguration,
     Tree
 } from '@nrwl/devkit';
-import { applicationGenerator } from '@nrwl/angular/src/generators/application/application';
+import { applicationGenerator } from '@nrwl/angular/generators';
 
 /**
  * 3rd-party imports
@@ -29,6 +29,7 @@ import {
  * Internal imports
  */
 import { NgSlsAppGeneratorSchema } from './schema';
+import { DEV_DEPENDENCIES } from './dependencies';
 
 function generateNewTargets(normalizedOptions: NormalizedSchema<NgSlsAppGeneratorSchema>): Record<string, TargetConfiguration> {
     return {
@@ -36,7 +37,7 @@ function generateNewTargets(normalizedOptions: NormalizedSchema<NgSlsAppGenerato
             executor: '@nrwl/workspace:run-commands',
             options: {
                 commands: [
-                    'sls deploy'
+                    'components deploy'
                 ],
                 cwd: normalizedOptions.projectRoot,
                 parallel: false
@@ -46,7 +47,7 @@ function generateNewTargets(normalizedOptions: NormalizedSchema<NgSlsAppGenerato
             executor: '@nrwl/workspace:run-commands',
             options: {
                 commands: [
-                    'sls remove'
+                    'components remove'
                 ],
                 cwd: normalizedOptions.projectRoot,
                 parallel: false
@@ -66,18 +67,21 @@ export default async function (host: Tree, options: NgSlsAppGeneratorSchema): Pr
         host, normalizedOptions, generateNewTargets(normalizedOptions)
     );
 
+    /*
+     * Adding dependencies to the workspace's package.json so that
+     * the newly created Angular + Serverless application can build properly
+     */
+    const installTask: GeneratorCallback = addDependenciesToPackageJson(
+        host,
+        {},
+        DEV_DEPENDENCIES
+    );
+
     // Generating files from templates
     addFiles(host, normalizedOptions, path.join(__dirname, 'templates'));
 
     // Formatting files according to Prettier
     await formatFiles(host);
 
-    return () => {
-        /*
-         * We need to do this in a callback to install Node modules
-         * only when all changes to the host are done and the future file system
-         * is stable
-         */
-        installPackagesTask(host);
-    };
+    return installTask;
 }
