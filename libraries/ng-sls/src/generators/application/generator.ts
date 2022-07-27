@@ -10,8 +10,10 @@ import {
     addDependenciesToPackageJson,
     formatFiles,
     GeneratorCallback,
+    joinPathFragments,
     TargetConfiguration,
-    Tree
+    Tree,
+    updateJson
 } from '@nrwl/devkit';
 import { applicationGenerator } from '@nrwl/angular/generators';
 
@@ -31,13 +33,14 @@ import {
 import { NgSlsAppGeneratorSchema } from './schema';
 import { DEV_DEPENDENCIES } from './dependencies';
 
-function generateNewTargets(normalizedOptions: NormalizedSchema<NgSlsAppGeneratorSchema>): Record<string, TargetConfiguration> {
+function generateNewTargets( normalizedOptions: NormalizedSchema<NgSlsAppGeneratorSchema> ): Record<string, TargetConfiguration> {
     return {
         deploy: {
             executor: '@nrwl/workspace:run-commands',
+            dependsOn: [ 'build' ],
             options: {
                 commands: [
-                    'components deploy'
+                    'sls client deploy --no-confirm --verbose'
                 ],
                 cwd: normalizedOptions.projectRoot,
                 parallel: false
@@ -47,7 +50,7 @@ function generateNewTargets(normalizedOptions: NormalizedSchema<NgSlsAppGenerato
             executor: '@nrwl/workspace:run-commands',
             options: {
                 commands: [
-                    'components remove'
+                    'sls client remove --no-confirm'
                 ],
                 cwd: normalizedOptions.projectRoot,
                 parallel: false
@@ -56,15 +59,23 @@ function generateNewTargets(normalizedOptions: NormalizedSchema<NgSlsAppGenerato
     };
 }
 
-export default async function (host: Tree, options: NgSlsAppGeneratorSchema): Promise<GeneratorCallback> {
-    const normalizedOptions: NormalizedSchema<NgSlsAppGeneratorSchema> = normalizeOptions(host, options);
+export default async function ( host: Tree, options: NgSlsAppGeneratorSchema ): Promise<GeneratorCallback> {
+    const normalizedOptions: NormalizedSchema<NgSlsAppGeneratorSchema> = normalizeOptions(
+        host,
+        options
+    );
 
     // Generating a basic Angular app
-    await applicationGenerator(host, normalizedOptions);
+    await applicationGenerator(
+        host,
+        normalizedOptions
+    );
 
     // Adding new targets to the generated Angular project
     addTargets2ProjectConfiguration<NgSlsAppGeneratorSchema>(
-        host, normalizedOptions, generateNewTargets(normalizedOptions)
+        host,
+        normalizedOptions,
+        generateNewTargets( normalizedOptions )
     );
 
     /*
@@ -77,11 +88,38 @@ export default async function (host: Tree, options: NgSlsAppGeneratorSchema): Pr
         DEV_DEPENDENCIES
     );
 
+    /*
+     * Improving default TypeScript configuration to be able
+     * to work with a serverless.ts file
+     */
+    updateJson(
+        host,
+        joinPathFragments(
+            normalizedOptions.projectRoot,
+            'tsconfig.json'
+        ),
+        ( json ) => {
+            return {
+                ...json,
+                compilerOptions: {
+                    module: 'commonjs'
+                }
+            };
+        }
+    );
+
     // Generating files from templates
-    addFiles(host, normalizedOptions, path.join(__dirname, 'templates'));
+    addFiles(
+        host,
+        normalizedOptions,
+        path.join(
+            __dirname,
+            'templates'
+        )
+    );
 
     // Formatting files according to Prettier
-    await formatFiles(host);
+    await formatFiles( host );
 
     return installTask;
 }

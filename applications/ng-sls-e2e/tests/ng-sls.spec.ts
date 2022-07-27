@@ -56,6 +56,6 @@ describe(`The ${PLUGIN_NAME} plugin, with the ${generatorName} generator,`, () =
      */
     await runNxCommandAsync(`remove ${appName}`);
 
-    expect(result.stdout).toMatch('Serverless › Success');
+    expect(result.stdout).toMatch('NX   Successfully ran target deploy');
   });
 });

@@ -36,7 +36,7 @@ import {
     DEV_DEPENDENCIES
 } from './dependencies';
 
-function generateNewTargets(normalizedOptions: NormalizedSchema<NestSlsAppGeneratorSchema>): Record<string, TargetConfiguration> {
+function generateNewTargets( normalizedOptions: NormalizedSchema<NestSlsAppGeneratorSchema> ): Record<string, TargetConfiguration> {
     return {
         deploy: {
             executor: '@nrwl/workspace:run-commands',
@@ -63,15 +63,23 @@ function generateNewTargets(normalizedOptions: NormalizedSchema<NestSlsAppGenera
     };
 }
 
-export default async function (host: Tree, options: NestSlsAppGeneratorSchema): Promise<GeneratorCallback> {
-    const normalizedOptions: NormalizedSchema<NestSlsAppGeneratorSchema> = normalizeOptions(host, options);
+export default async function ( host: Tree, options: NestSlsAppGeneratorSchema ): Promise<GeneratorCallback> {
+    const normalizedOptions: NormalizedSchema<NestSlsAppGeneratorSchema> = normalizeOptions(
+        host,
+        options
+    );
 
     // Generating a basic Nest app
-    await applicationGenerator(host, normalizedOptions);
+    await applicationGenerator(
+        host,
+        normalizedOptions
+    );
 
     // Adding new targets to the generated Angular project
     addTargets2ProjectConfiguration<NestSlsAppGeneratorSchema>(
-        host, normalizedOptions, generateNewTargets(normalizedOptions)
+        host,
+        normalizedOptions,
+        generateNewTargets( normalizedOptions )
     );
 
     /*
@@ -85,28 +93,37 @@ export default async function (host: Tree, options: NestSlsAppGeneratorSchema): 
     );
 
     /*
-     * Improving default TypeScript configuration to prevent
-     * any warning during the compilation of lambda.ts
+     * Improving default TypeScript configuration to be able
+     * to work with a serverless.ts file
      */
     updateJson(
         host,
-        joinPathFragments(normalizedOptions.projectRoot, 'tsconfig.json'),
-        (json) => {
+        joinPathFragments(
+            normalizedOptions.projectRoot,
+            'tsconfig.json'
+        ),
+        ( json ) => {
             return {
                 ...json,
                 compilerOptions: {
-                    esModuleInterop: true,
-                    module: "commonjs"
+                    module: 'commonjs'
                 }
             };
         }
     );
 
     // Generating files from templates
-    addFiles(host, normalizedOptions, path.join(__dirname, 'templates'));
+    addFiles(
+        host,
+        normalizedOptions,
+        path.join(
+            __dirname,
+            'templates'
+        )
+    );
 
     // Formatting files according to Prettier
-    await formatFiles(host);
+    await formatFiles( host );
 
     return installTask;
 }

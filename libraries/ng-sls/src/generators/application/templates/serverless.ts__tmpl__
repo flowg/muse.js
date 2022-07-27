@@ -1,0 +1,34 @@
+/**
+ * 3rd-party imports
+ */
+import type { Serverless } from 'serverless/aws';
+
+/**
+ * To know what to put into the custom property,
+ * see https://github.com/fernando-mc/serverless-finch#configuration-parameters
+ */
+const serverlessConfiguration: Serverless = {
+    provider: {
+        name: 'aws',
+        runtime: 'nodejs14.x'
+    },
+    service: '<%= name %>',
+    plugins: [
+        'serverless-finch', // Use this to be able to deploy a static website ( like an SPA ) to an S3 bucket
+        'serverless-plugin-typescript', // Use this to be able to use directly TS files with sls deploy
+        'serverless-plugin-optimize', // Use this to CONSIDERABLY decrease the size of the package sent to AWS ( like 16 times less... )
+        'serverless-offline'
+    ],
+    package: {
+        individually: true
+    },
+    custom: {
+        client: {
+            bucketName: 'unique-s3-bucketname',
+            distributionFolder: '../../dist/apps/<%= name %>',
+            errorDocument: 'index.html'
+        }
+    }
+};
+
+module.exports = serverlessConfiguration;
