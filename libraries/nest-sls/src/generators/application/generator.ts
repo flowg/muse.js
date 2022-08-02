@@ -106,7 +106,8 @@ export default async function ( host: Tree, options: NestSlsAppGeneratorSchema )
             return {
                 ...json,
                 compilerOptions: {
-                    module: 'commonjs'
+                    module: 'commonjs',
+                    esModuleInterop: true
                 }
             };
         }
